@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">iRCMBS</string>
+    <string name="app_title">Integrated Restaurant &amp; Cafe Management System</string>
+    <string name="nav_draw_open">Open navigation drawer</string>
+    <string name="nav_draw_close">Close navigation drawer</string>
+
+
+    <string name="menu_home">Home</string>
+    <string name="menu_myacc">My Account</string>
+    <string name="menu_earning">My Earning</string>
+    <string name="menu_account">Accounts</string>
+    <string name="menu_note">Note</string>
+    <string name="menu_lowstock">Low Stock Items</string>
+    <string name="menu_custfeed">Customer Feedback</string>
+    <string name="menu_misc">Misc</string>
+</resources>

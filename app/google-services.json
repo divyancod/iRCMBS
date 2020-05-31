@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "58504218445",
+    "firebase_url": "https://ircmbs-143f2.firebaseio.com",
+    "project_id": "ircmbs-143f2",
+    "storage_bucket": "ircmbs-143f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58504218445:android:3af8697f9c1270c2e5d904",
+        "android_client_info": {
+          "package_name": "com.messed.ircmbs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "58504218445-43oo588r382t994rmf5ovvcgajufd2kp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsSmdi8FxBRJGlrte4qXZ3e0Z7dOEXtHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "58504218445-43oo588r382t994rmf5ovvcgajufd2kp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="@string/menu_account">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_home"
+                    android:title="@string/menu_home" />
+                <item
+                    android:id="@+id/nav_earning"
+                    android:title="@string/menu_earning" />
+                <item
+                    android:id="@+id/nav_myacc"
+                    android:title="@string/menu_myacc" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/menu_misc">
+        <menu>
+
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_note"
+                    android:title="@string/menu_note" />
+
+                <item
+                    android:id="@+id/nav_stock"
+                    android:title="@string/menu_lowstock" />
+                <item
+                    android:id="@+id/nav_feedback"
+                    android:title="@string/menu_custfeed" />
+
+            </group>
+        </menu>
+    </item>
+</menu>

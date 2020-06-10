@@ -1,5 +1,6 @@
 package com.messed.ircmbs;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -14,8 +15,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.messed.ircmbs.Model.AllStringHere;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.View.RestOrderConfirmation;
@@ -24,6 +29,7 @@ import com.messed.ircmbs.ViewModel.RestOrderViewModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RestOrder extends AppCompatActivity {
 

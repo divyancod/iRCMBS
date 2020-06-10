@@ -1,0 +1,896 @@
+package com.atg.world.fragments;
+
+
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Parcelable;
+import android.os.Parcelable;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
+import android.util.Log;
+
+import androidx.core.util.Pair;
+
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.atg.world.R;
+import com.atg.world.activity.ContactUsActivity;
+import com.atg.world.activity.ExploreGroupActivity;
+import com.atg.world.activity.GroupSelectionNewActivity;
+import com.atg.world.activity.MainActivity;
+import com.atg.world.activity.PostDetailActivity;
+import com.atg.world.adapters.PostAdapter;
+import com.atg.world.models.PostDetail;
+import com.atg.world.models.UpdateFilterResponse;
+import com.atg.world.models.newdashboard.Dashboard;
+import com.atg.world.models.newdashboard.Groups;
+import com.atg.world.models.newdashboard.Posts;
+import com.atg.world.models.newdashboard.WsDashboard2DataClass;
+import com.atg.world.network.AtgClient;
+import com.atg.world.network.AtgService;
+import com.atg.world.preferences.UserPreferenceManager;
+import com.atg.world.ui.homebottomsheet.HomeBottomSheetClickActivity;
+import com.atg.world.utilities.AppUtils;
+import com.atg.world.utilities.CustomSnackBar;
+import com.atg.world.utilities.Emoji;
+import com.atg.world.utilities.NetworkUtility;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.io.IOException;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+import me.toptas.fancyshowcase.FancyShowCaseView;
+import me.toptas.fancyshowcase.FocusShape;
+import me.toptas.fancyshowcase.listener.DismissListener;
+import me.toptas.fancyshowcase.listener.OnViewInflateListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.view.View.GONE;
+import static com.atg.world.utilities.AppConstants.PREF_CONNECT_INTRO;
+import static com.atg.world.utilities.AppConstants.PREF_EXPLORE_GROUP_INTRO;
+import static com.atg.world.utilities.AppConstants.PREF_HOME_VISIT;
+import static com.atg.world.utilities.AppConstants.PREF_NEED_INTRO;
+
+/**
+ * This fragment will be used to show list of all posts.
+ */
+public class HomeFragment extends BaseFragment implements PostAdapter.OnItemClickListener {
+
+    public static final int PAGE_SIZE = 7;
+
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.empty_view)
+    View emptyView;
+    @BindView(R.id.error_ll)
+    LinearLayout errorLinearLayout;
+    @BindView(R.id.tv_error)
+    TextView errorTextView;
+    @BindView(R.id.btn_reload)
+    TextView mReloadButton;
+    @BindView(R.id.progressBar_load)
+    ProgressBar mProgressBar;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipe_refresh;
+    @BindView(R.id.toolbarTitleTextView)
+    AppCompatTextView toolbarTitleText;
+    @BindView(R.id.home_toolbar_explore_icon)
+    AppCompatImageView exploreIcon;
+    @BindView(R.id.iv_prevent_stickyheaderclick)
+    ImageView preventStickyHeaderClickIv;
+    @BindView(R.id.homefrag_group_sv)
+    EditText searchView;
+    @BindView(R.id.home_toolbar_inbox_icon)
+    ImageView inboxBtn;
+    @BindView(R.id.main_loading)
+    LinearLayout loaderContainer;
+    @BindView(R.id.exploreButton)
+    Button exploreButton;
+    @BindView(R.id.home_icon)
+    ImageView homeIcon;
+
+    @BindView(R.id.coordinator)
+    CoordinatorLayout coordinator;
+
+    private LinearLayoutManager mLinearLayoutManager;
+    private static final int PAGE_START = 1;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private int mCurrentPage = PAGE_START;
+    private Unbinder unbinder;
+    private PostAdapter mGetAllAdapter;
+    private CompositeDisposable compositeDisposable;
+    private long mLastClickTime = 0;
+    private FancyShowCaseView fancyShowCaseView;
+    private FancyShowCaseView fancyShowCaseView2;
+
+    private Call<WsDashboard2DataClass> call;
+    private AtgService atgService;
+    private Snackbar snackbar;
+    private View rootView;
+    private int onBackpressedCheck = 0;
+    private MainActivity activity;
+
+    public HomeFragment() {
+    }
+
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
+    }
+
+    public static HomeFragment newInstance(Bundle extras) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle bundle = new Bundle();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        compositeDisposable = new CompositeDisposable();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_get_all, container, false);
+        unbinder = ButterKnife.bind(this, rootView);
+        activity = (MainActivity) getContext();
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //appOperationHandler = AppOperationHandler.getAppOperationHandler();
+        mProgressBar.setVisibility(View.GONE);
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        mGetAllAdapter = new PostAdapter(getContext(), compositeDisposable);
+        mGetAllAdapter.setOnItemClickListener(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mGetAllAdapter);
+
+        toolbarTitleText.setOnClickListener(View -> {
+            ExploreGroups();
+        });
+
+        homeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), ContactUsActivity.class));
+            }
+        });
+
+        if (UserPreferenceManager.getPreferenceObjectJsonDashboard(getContext(), "DashBoard") != null) {
+            mGetAllAdapter.clearAll();
+            mGetAllAdapter.addAll(UserPreferenceManager.getPreferenceObjectJsonDashboard(getContext(), "DashBoard"));
+        } else {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+        atgService = AtgClient.getClient().create(AtgService.class);
+        call = atgService.getDashboardData(0, PAGE_START,
+                Integer.parseInt(UserPreferenceManager.getUserId(getContext())));
+        call.enqueue(firstFetchCallback);
+
+        swipe_refresh.setOnRefreshListener(this::pullAndRefresh);
+
+        preventStickyHeaderClickIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ExploreGroups();
+            }
+        });
+
+        inboxBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OpenMessageActivity();
+            }
+        });
+
+        exploreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ExploreGroups();
+            }
+        });
+
+
+
+    }
+
+    private void intro() {
+        
+        if (UserPreferenceManager.introRequired(getContext(), PREF_NEED_INTRO)) {
+
+            if(fancyShowCaseView==null){
+            fancyShowCaseView = new FancyShowCaseView.Builder(getActivity())
+                    .focusOn(searchView)
+                    .customView(R.layout.custom_showcaseview, new OnViewInflateListener() {
+                        @Override
+                        public void onViewInflated(@NotNull View view) {
+                            view.findViewById(R.id.btnGotit)
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            fancyShowCaseView.hide();
+                                        }
+                                    });
+                        }
+                    })
+                    .focusShape(FocusShape.ROUNDED_RECTANGLE)
+                    .roundRectRadius(90)
+                    .backgroundColor(Color.parseColor("#00b85c"))
+                    .closeOnTouch(false)
+                    .build();}
+
+            View connect = requireActivity().findViewById(R.id.nav_connect);
+            if(fancyShowCaseView2==null){
+            fancyShowCaseView2 = new FancyShowCaseView.Builder(getActivity())
+                    .focusOn(connect)
+                    .customView(R.layout.custom_showcaseview2, new OnViewInflateListener() {
+                        @Override
+                        public void onViewInflated(@NotNull View view) {
+                            view.findViewById(R.id.btnGotit)
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            fancyShowCaseView2.hide();
+                                        }
+                                    });
+                        }
+                    })
+                    .backgroundColor(Color.parseColor("#00b85c"))
+                    .closeOnTouch(false)
+                    .build();}
+
+            fancyShowCaseView2.setDismissListener(new DismissListener() {
+                @Override
+                public void onDismiss(@org.jetbrains.annotations.Nullable String s) {
+                    UserPreferenceManager.introRequired(getContext(), PREF_CONNECT_INTRO, false);
+                    UserPreferenceManager.visitCounter(getContext(), PREF_HOME_VISIT,0);
+                }
+
+                @Override
+                public void onSkipped(@org.jetbrains.annotations.Nullable String s) {
+
+                }
+            });
+
+            if (UserPreferenceManager.introRequired(getContext(), PREF_CONNECT_INTRO)) {
+                fancyShowCaseView2.show();
+            }
+
+            if (UserPreferenceManager.introRequired(getContext(), PREF_EXPLORE_GROUP_INTRO)) {
+
+                fancyShowCaseView.setDismissListener(new DismissListener() {
+                    @Override
+                    public void onDismiss(@org.jetbrains.annotations.Nullable String s) {
+                        UserPreferenceManager.introRequired(getContext(), PREF_EXPLORE_GROUP_INTRO, false);
+                    }
+
+                    @Override
+                    public void onSkipped(@org.jetbrains.annotations.Nullable String s) {
+
+                    }
+                });
+                fancyShowCaseView.show();
+            }
+
+
+        }
+    }
+
+    @Override
+    public void onPause() {
+        //if (fancyShowCaseView != null)
+            //fancyShowCaseView.hide();
+       // if (fancyShowCaseView2 != null)
+            //fancyShowCaseView2.hide();
+        super.onPause();
+    }
+
+    public void pullAndRefresh() {
+        if (call != null)
+            call.cancel();
+
+        mRecyclerView.removeOnScrollListener(recyclerViewOnScrollListener);
+
+        loaderContainer.setVisibility(View.VISIBLE);
+        isLoading = true;
+        swipeProgress(true);
+        if (errorLinearLayout.getVisibility() == View.VISIBLE) {
+            errorLinearLayout.setVisibility(View.GONE);
+        }
+
+        if (emptyView.getVisibility() == View.VISIBLE) {
+            emptyView.setVisibility(GONE);
+        }
+        AtgService atgService = AtgClient.getClient().create(AtgService.class);
+
+        call = atgService.getDashboardData(0, PAGE_START,
+                Integer.parseInt(UserPreferenceManager.getUserId(getContext())));
+        call.enqueue(firstFetchCallback);
+
+    }
+
+    private void swipeProgress(boolean show) {
+        if (!show) {
+            if (swipe_refresh != null) {
+                swipe_refresh.setRefreshing(show);
+            }
+            return;
+        }
+        swipe_refresh.post(() -> swipe_refresh.setRefreshing(show));
+    }
+
+    @Override
+    public void onDestroyView() {
+        removeRecyclerScrollListeners();
+        if (call != null)
+            call.cancel();
+        mCurrentPage = 1;
+        unbinder.unbind();
+        super.onDestroyView();
+    }
+
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+            super.onScrolled(recyclerView, dx, dy);
+
+            int visibleItemCount = mLinearLayoutManager.getChildCount();
+            int totalItemCount = mLinearLayoutManager.getItemCount();
+            int firstVisibleItemCount = mLinearLayoutManager.findFirstVisibleItemPosition();
+            // int seamlessNextFetchCount = totalItemCount / 3;
+            if (dy > 0) {
+                if (!isLoading && !isLastPage) {
+                    //&& firstVisibleItemCount >= 0 && totalItemCount >= PAGE_SIZE
+                    if ((firstVisibleItemCount + visibleItemCount + 3) >= totalItemCount) {
+                        loadMoreItems();
+                    }
+                }
+            }
+        }
+    };
+
+
+    @OnClick(R.id.btn_reload)
+    public void onReloadButtonClicked() {
+        if (call != null)
+            call.cancel();
+
+        loaderContainer.setVisibility(View.VISIBLE);
+        errorLinearLayout.setVisibility(View.GONE);
+        call = atgService.getDashboardData(0, PAGE_START, Integer.parseInt(UserPreferenceManager.getUserId(getContext())));
+        call.enqueue(firstFetchCallback);
+    }
+
+    @OnClick(R.id.home_toolbar_explore_icon)
+    public void ExploreGroups() {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+            return;
+        } else {
+            mLastClickTime = SystemClock.elapsedRealtime();
+            Intent intent = new Intent(getActivity(), ExploreGroupActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @OnClick(R.id.home_toolbar_inbox_icon)
+    public void OpenMessageActivity() {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+            return;
+        } else {
+            mLastClickTime = SystemClock.elapsedRealtime();
+            Intent intent = new Intent(getActivity(), HomeBottomSheetClickActivity.class);
+            intent.putExtra("type", HomeBottomSheetClickActivity.intentMessaging);
+            startActivity(intent);
+        }
+    }
+
+    private void setAnimation(View view) {
+        long DURATION_IN_FADE_ID = 800;
+        view.setAlpha(0.f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        ObjectAnimator animatorAlpha = ObjectAnimator.ofFloat(view, "alpha", 0.f, 0.5f, 1.f);
+        ObjectAnimator.ofFloat(view, "alpha", 0.f).start();
+        animatorAlpha.setDuration(DURATION_IN_FADE_ID);
+        animatorSet.play(animatorAlpha);
+        animatorSet.start();
+    }
+
+    private void loadMoreItems() {
+        if (snackbar != null && snackbar.isShown())
+            snackbar.dismiss();
+        loaderContainer.setVisibility(View.VISIBLE);
+        isLoading = true;
+        mCurrentPage = mCurrentPage + 1;
+
+        call = atgService.getDashboardData(0, mCurrentPage, Integer.parseInt(UserPreferenceManager.getUserId(getActivity())));
+        call.enqueue(nextFetchCallback);
+    }
+
+    private void startTimer() {
+        new CountDownTimer(2000, 50) {
+            @Override
+            public void onTick(long l) {
+                if (onBackpressedCheck == 2) {
+                    if (getActivity() != null)
+                        getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                onBackpressedCheck = 0;
+            }
+        }.start();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        intro();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onBackpressedCheck = 0;
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    onBackpressedCheck++;
+                    if (onBackpressedCheck == 1) {
+                        Toast.makeText(getContext(), "Tap again to exit", Toast.LENGTH_SHORT).show();
+                        startTimer();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
+    }
+
+    public Callback<WsDashboard2DataClass> firstFetchCallback = new Callback<WsDashboard2DataClass>() {
+        @Override
+        public void onResponse(Call<WsDashboard2DataClass> call, Response<WsDashboard2DataClass> response) {
+
+            mProgressBar.setVisibility(View.GONE);
+            loaderContainer.setVisibility(GONE);
+            isLoading = false;
+            swipeProgress(false);
+
+            if (!response.isSuccessful() || response.body() == null) {
+                errorHandleing();
+                return;
+            }
+
+            WsDashboard2DataClass wsDashboard2Response = response.body();
+
+            if (wsDashboard2Response.getError_code().equals("1")) {
+                Intent intent = new Intent(getContext(), GroupSelectionNewActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Toast.makeText(getActivity(), "Please select your interest to use the app", Toast.LENGTH_LONG).show();
+                startActivity(intent);
+            } else if (wsDashboard2Response.getError_code().equals("0")) {
+                List<Posts> dashboardList = getPostList(wsDashboard2Response);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                errorLinearLayout.setVisibility(GONE);
+                emptyView.setVisibility(GONE);
+                mGetAllAdapter.clearAll();
+                UserPreferenceManager.setPreferenceObjectDashBoard(getActivity().getApplicationContext(), dashboardList, "DashBoard");
+                setAnimation(mRecyclerView);
+                mGetAllAdapter.addAll(dashboardList);
+                mRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+            } else if (wsDashboard2Response.getError_code().equals("3")) {
+                emptyView.setVisibility(View.VISIBLE);
+                errorLinearLayout.setVisibility(GONE);
+                mRecyclerView.setVisibility(GONE);
+            }
+
+        }
+
+
+        @Override
+        public void onFailure(retrofit2.Call call, Throwable t) {
+
+            if (!call.isCanceled()) {
+                mProgressBar.setVisibility(View.GONE);
+                loaderContainer.setVisibility(GONE);
+                emptyView.setVisibility(GONE);
+
+                isLoading = false;
+                swipeProgress(false);
+
+                if (t instanceof IOException) {
+                    //  Toast.makeText(getContext(), "Network Failure. Please try again", Toast.LENGTH_SHORT).show();
+                } else {
+                    //  Toast.makeText(getContext(), "Conversion issue found. Please try again", Toast.LENGTH_SHORT).show();
+                }
+                errorHandleing();
+            }
+        }
+    };
+
+    private void errorHandleing() {
+
+        emptyView.setVisibility(GONE);
+
+        if (UserPreferenceManager.getPreferenceObjectJsonDashboard(getActivity(), "DashBoard") == null) {
+            errorTextView.setText("Can't load data.\nCheck your network connection.");
+            errorLinearLayout.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(GONE);
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            errorLinearLayout.setVisibility(GONE);
+            snackbar = CustomSnackBar.makeErrorSnackBar(getContext(), getView(), "No internet connection", "Retry", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onReloadButtonClicked();
+                    snackbar.dismiss();
+                }
+            }, Snackbar.LENGTH_INDEFINITE);
+            AppUtils.addBottomMargineToSnackbarForFab(snackbar, getContext());
+
+            snackbar.show();
+        }
+
+    }
+
+
+    public Callback<WsDashboard2DataClass> nextFetchCallback = new Callback<WsDashboard2DataClass>() {
+        @Override
+        public void onResponse(Call<WsDashboard2DataClass> call, Response<WsDashboard2DataClass> response) {
+
+            if (mProgressBar != null)
+                mProgressBar.setVisibility(View.GONE);
+            else
+                return;
+            loaderContainer.setVisibility(GONE);
+            isLoading = false;
+
+            if (!response.isSuccessful()) {
+                onFailure(call, new Exception());
+            } else {
+                WsDashboard2DataClass wsDashboard2Response = response.body();
+
+                if (wsDashboard2Response != null) {
+                    List<Posts> dashboardList = getPostList(wsDashboard2Response);
+                    if (dashboardList != null) {
+                        if (dashboardList.size() > 0) {
+                            mGetAllAdapter.addAll(dashboardList);
+                        } else {
+                            isLastPage = true;
+                        }
+                    }
+                }//AS the function returns void so it will automatically returns so here no need for return; specifically
+            }
+        }
+
+        @Override
+        public void onFailure(Call call, Throwable t) {
+            if (!call.isCanceled()) {
+                isLoading = false;
+                mProgressBar.setVisibility(View.GONE);
+                loaderContainer.setVisibility(GONE);
+
+                if (mCurrentPage != 1)
+                    mCurrentPage--;
+
+                if (t instanceof IOException) {
+                    // Toast.makeText(getContext(), "Network Failure. Please try again", Toast.LENGTH_SHORT).show();
+                } else {
+                    //  Toast.makeText(getContext(), "Conversion issue found. Please try again", Toast.LENGTH_SHORT).show();
+                }
+
+                snackbar = CustomSnackBar.makeErrorSnackBar(getContext(), getView(), "No internet connection", "Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        loadMoreItems();
+                        snackbar.dismiss();
+                    }
+                }, Snackbar.LENGTH_INDEFINITE);
+                AppUtils.addBottomMargineToSnackbarForFab(snackbar, getContext());
+
+                snackbar.show();
+
+            }
+        }
+    };
+
+
+    @Override
+    public void onItemClick(int position, View view) {
+        try {
+            if (activity != null) {
+                activity.setVisibilityToBottomView(GONE);
+            }
+            Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+            intent.putExtra(PostDetailActivity.POST_TYPE_KEY, mGetAllAdapter.getItem(position).getType());
+            intent.putExtra(PostDetailActivity.POST_ID_KEY, mGetAllAdapter.getItem(position).getId());
+            intent.putExtra(PostDetailActivity.POST_TITLE_KEY, mGetAllAdapter.getItem(position).getTitle());
+            intent.putExtra(PostDetailActivity.POST_FIRSTNAME_KEY, mGetAllAdapter.getItem(position).getFirstName());
+            intent.putExtra(PostDetailActivity.POST_LASTNAME_KEY, mGetAllAdapter.getItem(position).getLastName());
+            intent.putExtra(PostDetailActivity.POST_USER_PROFILE_PICTURE_KEY, mGetAllAdapter.getItem(position).getProfilePicture());
+            intent.putExtra(PostDetailActivity.POST_SHAREURL_KEY, mGetAllAdapter.getItem(position).getPostLink());
+            intent.putExtra(PostDetailActivity.POST_IMAGEURL_KEY, mGetAllAdapter.getItem(position).getImage());
+            intent.putExtra(PostDetailActivity.POST_IMAGE_HEIGHT, mGetAllAdapter.getItem(position).getImgH());
+            intent.putExtra(PostDetailActivity.POST_IMAGE_WIDTH, mGetAllAdapter.getItem(position).getImgW());
+            intent.putExtra(PostDetailActivity.POST_USER_ID, String.valueOf(mGetAllAdapter.getItem(position).getUserId()));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && view != null) {
+                ImageView imageView = view.findViewById(R.id.iv_get_all);
+                TextView title = view.findViewById(R.id.tv_title_get_all);
+                ImageView userProfile = view.findViewById(R.id.iv_dashboard_user_img);
+                TextView username = view.findViewById(R.id.tv_dashboard_user_name);
+
+                Pair<View, String> p1 = Pair.create(imageView, "image");
+                Pair<View, String> p2 = Pair.create(title, "title");
+                Pair<View, String> p3 = Pair.create(userProfile, "userProfile");
+                Pair<View, String> p4 = Pair.create(username, "username");
+
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(getActivity(), p1, p2, p3, p4);
+                startActivity(intent, options.toBundle());
+            } else {
+                startActivity(intent);
+            }
+            if (call != null) {
+                call.cancel();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onViewMoreLessClick(String action, Posts posts, PopupWindow attachmentPopup, View v) {
+        popupFadeOutAnimation(attachmentPopup);
+        AtgService service = AtgClient.getClient().create(AtgService.class);
+        snackbar = CustomSnackBar.makeSuccessSnackBar(v.getContext(), coordinator,
+                action.equals("increase")? "More like that coming your way!" : "You'll get less like that!",
+                "UNDO", view -> {
+                    undoViewMoreLess(action,posts,attachmentPopup,v,service);
+                    snackbar.dismiss();
+                }, Snackbar.LENGTH_SHORT);
+        AppUtils.addBottomMargineToSnackbarForFab(snackbar, v.getContext());
+        snackbar.show();
+        compositeDisposable.add(
+                service.setViewMoreLess(UserPreferenceManager.getUserId(getContext()),
+                        posts.getGroupId(), action).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<UpdateFilterResponse>() {
+                            @Override
+                            public void onNext(UpdateFilterResponse response) {
+                                if (response.getErr() != 0 ) {
+                                    Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                if (NetworkUtility.isKnownException(e))
+                                    Toast.makeText(getContext(), "No Internet!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        })
+        );
+    }
+
+    private void undoViewMoreLess(String action, Posts posts, PopupWindow attachmentPopup, View v,AtgService service){
+        attachmentPopup.setAnimationStyle(R.style.ViewMoreLessAnimation);
+        attachmentPopup.showAsDropDown(v, 0, 0);
+        compositeDisposable.add(
+                service.setViewMoreLess(UserPreferenceManager.getUserId(getContext()),
+                        posts.getGroupId(), action.equals("increase") ? "reduce" : "increase").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<UpdateFilterResponse>() {
+                            @Override
+                            public void onNext(UpdateFilterResponse response) {
+                                if (response.getErr() != 0 ) {
+                                    Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                if (NetworkUtility.isKnownException(e))
+                                    Toast.makeText(getContext(), "No Internet!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        })
+        );
+    }
+
+    private void popupFadeOutAnimation(PopupWindow attachmentPopup){
+        Animation animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                attachmentPopup.dismiss();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        attachmentPopup.getContentView().startAnimation(animation);
+    }
+
+    private void removeRecyclerScrollListeners() {
+        mRecyclerView.removeOnScrollListener(recyclerViewOnScrollListener);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        if (call != null)
+            call.cancel();
+        compositeDisposable.dispose();
+        super.onDestroy();
+    }
+
+    private int getTotalPostCount(WsDashboard2DataClass wsDashboard2Response) {
+        int dashBoardSize = wsDashboard2Response.getDashboard().size();
+        int totalPost = 0;
+        for (int i = 0; i < dashBoardSize; i++) {
+            totalPost += wsDashboard2Response.getDashboard().get(i).getPosts().size();
+        }
+        return totalPost;
+    }
+
+    private List<Posts> getPostList(WsDashboard2DataClass wsDashboard2Response) {
+        List<Posts> dashboardList = new ArrayList<>();
+        if (wsDashboard2Response.getDashboard() != null) {
+            for (Dashboard dashboard : wsDashboard2Response.getDashboard()) {
+                if (dashboard != null) {
+
+                    String groupName1 = "", groupIcon1 = "", groupName2 = "", groupIcon2 = "", groupName3 = "", groupIcon3 = "";
+
+                    List<Groups> groups = dashboard.getGroups();
+
+                    if (groups.size() != 0) {
+                        groupName1 = groups.get(0).getGroup_name();
+                        groupIcon1 = groups.get(0).getGroup_icon();
+                        if (groups.size() >= 2) {
+                            groupName2 = groups.get(1).getGroup_name();
+                            groupIcon2 = groups.get(1).getGroup_icon();
+                            if (groups.size() >= 3) {
+                                groupName3 = groups.get(2).getGroup_name();
+                                groupIcon3 = groups.get(2).getGroup_icon();
+                            }
+                        }
+                    }
+
+                    List<Posts> posts = dashboard.getPosts();
+
+
+                    if (posts.get(0).getType() != null) {
+                        String postTypeEmoji;
+                        switch (Objects.requireNonNull(posts.get(0).getType())) {
+                            case "Article":
+                                postTypeEmoji = Emoji.WRITING_HAND;
+                                break;
+                            case "Job":
+                                postTypeEmoji = Emoji.BRIEFCASE;
+                                break;
+                            case "Meetup":
+                                postTypeEmoji = Emoji.HANDSHAKE;
+                                break;
+                            case "Event":
+                                postTypeEmoji = Emoji.PERFORMING_ARTS;
+                                break;
+                            case "Qrious":
+                                postTypeEmoji = Emoji.THINKING_FACE;
+                                break;
+                            case "Education":
+                                postTypeEmoji = Emoji.MICROSCOPE;
+                                break;
+                            default:
+                                postTypeEmoji = Emoji.EARTH_GLOBE_AMERICA;
+                                break;
+                        }
+
+                        Posts post = new Posts(dashboard.getType(), dashboard.getColor().get(1), dashboard.getColor().get(0), groupName1, groupIcon1, groupName2, groupIcon2, groupName3, groupIcon3, dashboard.getTotal_groups(), postTypeEmoji, dashboard.getGroups().size(), posts.size());
+                        dashboardList.add(post);
+                    }
+
+                    if (!posts.isEmpty()) {
+                        for (int j = 0; j < posts.size(); j++) {
+                            if (j == 0) {
+                                posts.get(j).setFirstPost(true);
+                                posts.get(j).setViewTypee(1);
+                            } else {
+                                posts.get(j).setFirstPost(false);
+                                posts.get(j).setViewTypee(1);
+                            }
+                            if (j == posts.size() - 1) {
+                                posts.get(j).setCheckIsLastPost(true);
+                            } else {
+                                posts.get(j).setCheckIsLastPost(false);
+                            }
+                            dashboardList.add(posts.get(j));
+                        }
+                    }
+                }
+            }
+        }
+        return dashboardList;
+    }
+}

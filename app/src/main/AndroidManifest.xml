@@ -3,6 +3,7 @@
     package="com.messed.ircmbs">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".View.RestOrderConfirmation"></activity>
+        <activity android:name=".RestSignUpDetails"></activity>
+        <activity android:name=".View.RestOrderConfirmation"
+            android:theme="@style/AppTheme.AfterNoActionBar"
+            />
         <activity android:name=".View.LoginActivities.SignUpScreen" />
         <activity
             android:name=".RestOrder"

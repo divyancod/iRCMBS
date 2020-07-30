@@ -5,5 +5,143 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.RestOrderConfirmation">
+    <include
+        android:id="@+id/include2"
+        layout="@layout/toolbar_layout" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/include2"
+        app:layout_constraintStart_toEndOf="@+id/include2"
+        app:layout_constraintTop_toBottomOf="@+id/include2">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/OrderFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorDarkBlue"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="OrderFrom"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textAllCaps="false"
+                android:text="Push to Kitchen" />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/cardLayout1"
+        app:layout_constraintStart_toEndOf="@+id/cardLayout1"
+        app:layout_constraintTop_toBottomOf="@+id/cardLayout1">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_recycler"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/cardLayout2"
+        app:layout_constraintStart_toEndOf="@+id/cardLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/cardLayout2">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ordertaxlabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TAX \:"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:fontFamily="@font/nunito_bold"
+                android:textSize="15sp"
+                android:padding="10dp"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ordertax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs.100"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="@color/colorDarkBlue"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/nunito_bold"
+                android:textSize="15sp"
+                android:padding="10dp"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18%"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@id/ordertax"
+                android:padding="10dp"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ordertotallabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total \:"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:layout_below="@id/ordertaxlabel"
+                android:fontFamily="@font/nunito_bold"
+                android:textSize="18sp"
+                android:padding="10dp"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ordertotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs.100"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:layout_below="@id/ordertax"
+                android:textColor="@color/colorDarkBlue"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/nunito_bold"
+                android:textSize="18sp"
+                android:padding="10dp"
+                />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

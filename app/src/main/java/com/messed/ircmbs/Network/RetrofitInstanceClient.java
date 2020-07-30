@@ -1,4 +1,4 @@
-package com.messed.ircmbs.ViewModel;
+package com.messed.ircmbs.Network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,7 +14,7 @@ public class RetrofitInstanceClient {
         Gson gson = new GsonBuilder().setLenient().create();
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl("http://192.168.43.94/")
+                    .baseUrl("http://192.168.2.7/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

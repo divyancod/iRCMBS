@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -13,14 +14,24 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.messed.ircmbs.Model.SignUpCall;
+import com.messed.ircmbs.Network.NetworkService;
+import com.messed.ircmbs.Network.RetrofitInstanceClient;
 import com.messed.ircmbs.R;
+import com.messed.ircmbs.RestSignUpDetails;
 import com.messed.ircmbs.View.RestaurantHomeScreen;
+import com.messed.ircmbs.ViewModel.MenuCall;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpScreen extends AppCompatActivity {
 
     String usertype[]={"Restaurant Representative","Employee of Restaurant"};
     AppCompatSpinner spinner;
-    TextInputEditText editText1,editText2;
+    TextInputEditText editText1,editText2,restname;
     FirebaseAuth firebaseAuth;
     MaterialButton button;
     @Override
@@ -37,6 +48,7 @@ public class SignUpScreen extends AppCompatActivity {
         editText1=findViewById(R.id.signup_email);
         editText2=findViewById(R.id.signup_password);
         button=findViewById(R.id.materialButton3);
+        restname=findViewById(R.id.signup_fullname);
         firebaseAuth=FirebaseAuth.getInstance();
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +60,9 @@ public class SignUpScreen extends AppCompatActivity {
                 if(!s1.isEmpty() && !s2.isEmpty())
                 {
                     firebaseAuth.createUserWithEmailAndPassword(s1,s2);
-                    startActivity(new Intent(getBaseContext(),RestaurantHomeScreen.class));
+                    Intent intent=new Intent(getBaseContext(), RestSignUpDetails.class);
+                    intent.putExtra("Name",restname.getText().toString());
+                    startActivity(intent);
                     finishAffinity();
                 }
             }

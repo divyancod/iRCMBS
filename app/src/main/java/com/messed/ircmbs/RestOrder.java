@@ -14,22 +14,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.messed.ircmbs.Model.AllStringHere;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.View.RestOrderConfirmation;
 import com.messed.ircmbs.ViewModel.RestOrderViewModel;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RestOrder extends AppCompatActivity {
 
@@ -38,7 +28,6 @@ public class RestOrder extends AppCompatActivity {
     ProgressDialog progressDialog;
     Spinner spinner;
     MaterialButton button;
-    private static String url="http://divyanshu123.000webhostapp.com/apicall.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,23 +43,24 @@ public class RestOrder extends AppCompatActivity {
                 finish();
             }
         });
+        UserPreference nob=new UserPreference(getBaseContext());
         progressDialog=new ProgressDialog(this);
         recyclerView=findViewById(R.id.rest_order_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //progressDialog.setMessage("Please wait loading menu");
-        //progressDialog.show();
+        progressDialog.setMessage("Please wait loading menu");
+        progressDialog.show();
         RestOrderViewModel restOrderViewModel=new RestOrderViewModel();
         restOrderViewModel.getListLiveData().observe(this, new Observer<List<MenuList>>() {
             @Override
             public void onChanged(List<MenuList> menuLists) {
                 RestOrderAdapter restOrderAdapter=new RestOrderAdapter(getBaseContext(),menuLists);
                 recyclerView.setAdapter(restOrderAdapter);
-                //progressDialog.dismiss();
+                progressDialog.dismiss();
             }
         });
 
         spinner=findViewById(R.id.appCompatSpinner);
-        ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, new AllStringHere().getRestOrderSpinner());
+        ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, new AllStringHere().getRestOrderSpinner(Integer.parseInt(nob.getTables())));
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
 
@@ -78,7 +68,9 @@ public class RestOrder extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(), RestOrderConfirmation.class));
+                Intent intent=new Intent(getBaseContext(), RestOrderConfirmation.class);
+                intent.putExtra("tableno",spinner.getSelectedItemId());
+                startActivity(intent);
             }
         });
     }

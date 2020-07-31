@@ -2,6 +2,9 @@ package com.messed.ircmbs.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+/*
+ * Created By MrMessedUp(Divyanshu Verma)
+ * */
 
 public class RestLoggedData {
 

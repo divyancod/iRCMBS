@@ -17,7 +17,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.messed.ircmbs.R;
 import com.messed.ircmbs.View.RestaurantHomeScreen;
-
+/*
+ * Created By MrMessedUp(Divyanshu Verma)
+ * */
 public class LoginRest extends AppCompatActivity {
 
     MaterialButton button;

@@ -22,7 +22,11 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.auth.User;
+import com.messed.ircmbs.MenuDataBase;
+import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.Model.RestLoggedData;
 import com.messed.ircmbs.Model.SignUpCall;
 import com.messed.ircmbs.Network.NetworkService;
@@ -32,16 +36,21 @@ import com.messed.ircmbs.UserPreference;
 import com.messed.ircmbs.View.LoginActivities.LoginChoice;
 import com.messed.ircmbs.View.LoginActivities.SignUpScreen;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+/*
+ * Created By MrMessedUp(Divyanshu Verma)
+ * */
 public class RestaurantHomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     FirebaseAuth firebaseAuth;
     private Call<RestLoggedData> call;
+    private Call<List<MenuList>> menuCall;
     TextView navdrawer_title;
     static final String TAG="RestHome";
     private UserPreference nob;
@@ -67,8 +76,18 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
         }
         nob=new UserPreference(getBaseContext());
         if(UserPreference.getInit(getBaseContext())==0)
+        {
             getRestData();
+            fetchMenu();
+        }
         navdrawer_title.setText(nob.getRestname());
+//        FirebaseDatabase database;
+//        DatabaseReference reference;
+//        database = FirebaseDatabase.getInstance();
+//        reference = database.getReference(firebaseAuth.getUid());
+//        //String id =reference.push().getKey();
+//        reference=database.getReference(firebaseAuth.getUid()).child("Table");
+//        reference.setValue("","");
     }
 
     private void getRestData()
@@ -103,10 +122,6 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
         return true;
     }
 
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.side_menu, menu);
@@ -120,11 +135,32 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
             case R.id.logout:
                 firebaseAuth.signOut();
                 nob.delete();
+                MenuDataBase menuDataBase=new MenuDataBase(this);
+                menuDataBase.deleteTable();
                 finish();
                 startActivity(new Intent(getBaseContext(), LoginChoice.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    private void fetchMenu()
+    {
+        NetworkService networkService= RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
+        menuCall=networkService.getAllMenu();
+        menuCall.enqueue(new Callback<List<MenuList>>() {
+            @Override
+            public void onResponse(Call<List<MenuList>> call, Response<List<MenuList>> response) {
+                for(int i=0;i<response.body().size();i++)
+                    Log.e("TAG",""+response.body().get(i).getItems());
+                MenuDataBase nob=new MenuDataBase(getBaseContext());
+                nob.addMenu(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<MenuList>> call, Throwable t) {
+
+            }
+        });
     }
 }

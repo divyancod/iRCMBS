@@ -26,7 +26,9 @@ import com.messed.ircmbs.ViewModel.MenuCall;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+/*
+ * Created By MrMessedUp(Divyanshu Verma)
+ * */
 public class SignUpScreen extends AppCompatActivity {
 
     String usertype[]={"Restaurant Representative","Employee of Restaurant"};

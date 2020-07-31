@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.messed.ircmbs.Model.RestLoggedData;
-
+/*
+ * Created By MrMessedUp(Divyanshu Verma)
+ * */
 public class UserPreference {
     public  SharedPreferences preferences;
     private int init;

@@ -14,7 +14,9 @@ import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.R;
 
 import java.util.List;
-
+/*
+ * Created By MrMessedUp(Divyanshu Verma)
+ * */
 public class MenuViewAdapter extends RecyclerView.Adapter<MenuViewAdapter.MenuViewViewHolder> {
     Context context;
     List<MenuList> menuList;

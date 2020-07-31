@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.messed.ircmbs.R;
 import com.messed.ircmbs.RestOrder;
-
+/*
+ * Created By MrMessedUp(Divyanshu Verma)
+ * */
 public class RestaurantHomeAdapter extends RecyclerView.Adapter<RestaurantHomeAdapter.RestaurantViewHolder> {
     Context context;
     String title[];

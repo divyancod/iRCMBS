@@ -14,7 +14,9 @@ import com.messed.ircmbs.Model.AllStringHere;
 import com.messed.ircmbs.Model.MenuList;
 
 import java.util.List;
-
+/*
+ * Created By MrMessedUp(Divyanshu Verma)
+ * */
 public class RestOrderAdapter extends RecyclerView.Adapter<RestOrderAdapter.RestOrderViewHolder> {
     Context context;
     List<MenuList> menuList;

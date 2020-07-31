@@ -3,7 +3,6 @@ package com.messed.ircmbs.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,15 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.R;
-import com.messed.ircmbs.RestOrderAdapter;
-import com.messed.ircmbs.ViewModel.RestOrderViewModel;
+import com.messed.ircmbs.View.Adapters.RestaurantHomeAdapter;
 
-import java.util.List;
 /*
  * Created By MrMessedUp(Divyanshu Verma)
  * */

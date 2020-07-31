@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.View;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -25,6 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.messed.ircmbs.Model.AllStringHere;
 import com.messed.ircmbs.Model.MenuList;
+import com.messed.ircmbs.Model.UserPreference;
+import com.messed.ircmbs.R;
+import com.messed.ircmbs.View.Adapters.RestOrderAdapter;
 import com.messed.ircmbs.View.RestOrderConfirmation;
 import com.messed.ircmbs.ViewModel.RestOrderViewModel;
 

@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.View.LoginActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.messed.ircmbs.Model.SignUpCall;
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
+import com.messed.ircmbs.R;
 import com.messed.ircmbs.View.RestaurantHomeScreen;
 
 import retrofit2.Call;

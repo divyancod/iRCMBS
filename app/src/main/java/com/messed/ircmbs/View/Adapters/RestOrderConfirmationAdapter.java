@@ -1,8 +1,6 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.View.Adapters;
 
 import android.content.Context;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.messed.ircmbs.Model.AllStringHere;
+import com.messed.ircmbs.R;
 
 import java.util.ArrayList;
 /*

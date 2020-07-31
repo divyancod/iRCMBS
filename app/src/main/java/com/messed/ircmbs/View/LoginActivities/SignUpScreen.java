@@ -5,27 +5,14 @@ import androidx.appcompat.widget.AppCompatSpinner;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.messed.ircmbs.Model.SignUpCall;
-import com.messed.ircmbs.Network.NetworkService;
-import com.messed.ircmbs.Network.RetrofitInstanceClient;
 import com.messed.ircmbs.R;
-import com.messed.ircmbs.RestSignUpDetails;
-import com.messed.ircmbs.View.RestaurantHomeScreen;
-import com.messed.ircmbs.ViewModel.MenuCall;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 /*
  * Created By MrMessedUp(Divyanshu Verma)
  * */

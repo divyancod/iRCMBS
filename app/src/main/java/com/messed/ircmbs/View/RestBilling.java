@@ -1,7 +1,6 @@
 package com.messed.ircmbs.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
@@ -24,21 +23,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.auth.User;
-import com.messed.ircmbs.MenuDataBase;
+import com.messed.ircmbs.Model.MenuDataBase;
 import com.messed.ircmbs.Model.AllStringHere;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.Model.SignUpCall;
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
 import com.messed.ircmbs.R;
-import com.messed.ircmbs.RestOrderBillAdapter;
-import com.messed.ircmbs.UserPreference;
+import com.messed.ircmbs.View.Adapters.RestOrderBillAdapter;
+import com.messed.ircmbs.Model.UserPreference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 import retrofit2.Call;
 import retrofit2.Callback;

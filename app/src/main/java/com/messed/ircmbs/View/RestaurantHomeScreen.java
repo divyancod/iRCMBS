@@ -1,40 +1,29 @@
 package com.messed.ircmbs.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.auth.User;
-import com.messed.ircmbs.MenuDataBase;
+import com.messed.ircmbs.Model.MenuDataBase;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.Model.RestLoggedData;
-import com.messed.ircmbs.Model.SignUpCall;
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
 import com.messed.ircmbs.R;
-import com.messed.ircmbs.UserPreference;
+import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.View.LoginActivities.LoginChoice;
-import com.messed.ircmbs.View.LoginActivities.SignUpScreen;
 
 import java.util.List;
 

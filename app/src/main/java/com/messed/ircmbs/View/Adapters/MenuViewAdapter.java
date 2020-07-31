@@ -1,4 +1,4 @@
-package com.messed.ircmbs.View;
+package com.messed.ircmbs.View.Adapters;
 
 import android.content.Context;
 import android.util.Log;

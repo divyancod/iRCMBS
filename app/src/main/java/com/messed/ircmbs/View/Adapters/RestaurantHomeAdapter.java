@@ -1,4 +1,4 @@
-package com.messed.ircmbs.View;
+package com.messed.ircmbs.View.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,14 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.messed.ircmbs.R;
-import com.messed.ircmbs.RestOrder;
+import com.messed.ircmbs.View.RestOrder;
+import com.messed.ircmbs.View.MenuViewActivity;
+import com.messed.ircmbs.View.RestBilling;
+
 /*
  * Created By MrMessedUp(Divyanshu Verma)
  * */
@@ -45,9 +47,9 @@ public class RestaurantHomeAdapter extends RecyclerView.Adapter<RestaurantHomeAd
             public void onClick(View v) {
                switch (position)
                {
-                   case 0 : context.startActivity(new Intent(context,MenuViewActivity.class));
+                   case 0 : context.startActivity(new Intent(context, MenuViewActivity.class));
                    break;
-                   case 1 : context.startActivity(new Intent(context,RestBilling.class));
+                   case 1 : context.startActivity(new Intent(context, RestBilling.class));
                    break;
                    case 2: context.startActivity(new Intent(context, RestOrder.class));
                    break;

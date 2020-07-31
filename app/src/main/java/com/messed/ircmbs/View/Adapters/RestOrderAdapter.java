@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.View.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.messed.ircmbs.Model.AllStringHere;
 import com.messed.ircmbs.Model.MenuList;
+import com.messed.ircmbs.R;
 
 import java.util.List;
 /*

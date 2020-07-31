@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;

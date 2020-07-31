@@ -3,20 +3,17 @@ package com.messed.ircmbs.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.R;
+import com.messed.ircmbs.View.Adapters.MenuViewAdapter;
 import com.messed.ircmbs.ViewModel.RestOrderViewModel;
 
 import java.util.List;

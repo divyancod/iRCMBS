@@ -17,7 +17,7 @@ import java.util.List;
  * */
 public class MenuDataBase extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "MyMenu";
     private static final String TABLE_NAME = "items";
 
@@ -28,7 +28,7 @@ public class MenuDataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query="create table "+ TABLE_NAME +"(Sno int(10),MenuItem varchar(100),Price varchar(50))";
+        String query="create table "+ TABLE_NAME +"(Sno int(10),MenuItem varchar(100),Price varchar(50),Rating varchar(10),time varchar(10),curravail varchar(10))";
         db.execSQL(query);
 
     }
@@ -47,7 +47,10 @@ public class MenuDataBase extends SQLiteOpenHelper {
             values.put("Sno",i);
             values.put("MenuItem",menuLists.get(i).getItems());
             values.put("Price",menuLists.get(i).getPrice());
-            db.insert(TABLE_NAME,null,values);
+            values.put("Rating",menuLists.get(i).getRating());
+            values.put("time",menuLists.get(i).getItemtime());
+            values.put("curravail",menuLists.get(i).getCurravail());
+            db.insert(TABLE_NAME,"0",values);
         }
         db.close();
     }
@@ -70,6 +73,30 @@ public class MenuDataBase extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         }
+        return data;
+    }
+    public List<MenuList> getAllItems()
+    {
+        List<MenuList> data=new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor;
+        String query="select * from "+TABLE_NAME;
+        cursor=db.rawQuery(query,null);
+        if(cursor.moveToFirst())
+        {
+            do {
+                {
+                    MenuList nob=new MenuList();
+                    nob.setItems(cursor.getString(1));
+                    nob.setPrice(cursor.getString(2));
+                    nob.setRating(cursor.getString(3));
+                    nob.setItemtime(cursor.getString(4));
+                    nob.setCurravail(cursor.getString(5));
+                    data.add(nob);
+                }
+            }while(cursor.moveToNext());
+        }
+        db.close();
         return data;
     }
     public void deleteTable()

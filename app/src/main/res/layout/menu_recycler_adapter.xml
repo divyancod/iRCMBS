@@ -15,7 +15,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="15dp"
             >
 
             <com.google.android.material.textview.MaterialTextView
@@ -40,6 +39,19 @@
                 android:fontFamily="@font/roboto_medium"
                 android:text="200"
                 android:textSize="20sp" />
+            <RatingBar
+                android:id="@+id/ratingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_below="@id/menuitemname"
+                android:layout_marginLeft="30dp"
+                android:numStars="5"
+                android:rating="1.5"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:progressTint="@color/colorDarkBlue"
+                />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 

@@ -37,7 +37,7 @@ public interface NetworkService {
     Call<RestLoggedData> restDataCall(
             @Field("restuid") String restuid);
 
-    @GET("/try/apicall.php")
+    @GET("/try/rest_menu_fetch.php")
     Call<List<MenuList>> getAllMenu();
 
     @POST("/try/rest_order_history.php")

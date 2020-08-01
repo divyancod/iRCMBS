@@ -86,8 +86,7 @@
             android:id="@+id/signup_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textPostalAddress"
-            android:maxLines="5"
+            android:inputType="textMultiLine"
             android:gravity="center_vertical"
             android:hint="Address" />
     </com.google.android.material.textfield.TextInputLayout>

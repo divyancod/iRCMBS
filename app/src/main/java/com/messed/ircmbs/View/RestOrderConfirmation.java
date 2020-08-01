@@ -86,9 +86,9 @@ public class RestOrderConfirmation extends AppCompatActivity {
             }
         }
         tax=(float)(total*18)/100;
-        taxtv.setText(""+tax);
+        taxtv.setText("Rs. "+tax);
         tax=total+tax;
-        totaltv.setText(""+tax);
+        totaltv.setText("Rs. "+tax);
         final RestOrderConfirmationAdapter nob=new RestOrderConfirmationAdapter(this,order,itemposition);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(nob);

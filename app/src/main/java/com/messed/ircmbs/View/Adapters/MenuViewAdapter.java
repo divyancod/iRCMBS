@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class MenuViewAdapter extends RecyclerView.Adapter<MenuViewAdapter.MenuVi
         Log.e("Adapter", "onBindViewHolder: " );
         holder.t1.setText(""+menuList.get(position).getItems());
         holder.t2.setText("Rs."+menuList.get(position).getPrice());
+        holder.ratingBar.setRating(Float.parseFloat(menuList.get(position).getRating()));
     }
 
     @Override
@@ -48,10 +50,12 @@ public class MenuViewAdapter extends RecyclerView.Adapter<MenuViewAdapter.MenuVi
 
     public class MenuViewViewHolder extends RecyclerView.ViewHolder {
         TextView t1,t2;
+        RatingBar ratingBar;
         public MenuViewViewHolder(@NonNull View itemView) {
             super(itemView);
             t1=itemView.findViewById(R.id.menuitemname);
             t2=itemView.findViewById(R.id.menuitemprice);
+            ratingBar=itemView.findViewById(R.id.ratingbar);
         }
     }
 }

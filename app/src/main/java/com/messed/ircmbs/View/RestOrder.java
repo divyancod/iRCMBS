@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -24,12 +25,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.messed.ircmbs.Model.AllStringHere;
+import com.messed.ircmbs.Model.MenuDataBase;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.R;
 import com.messed.ircmbs.View.Adapters.RestOrderAdapter;
 import com.messed.ircmbs.View.RestOrderConfirmation;
-import com.messed.ircmbs.ViewModel.RestOrderViewModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,7 @@ public class RestOrder extends AppCompatActivity {
     Spinner spinner;
     MaterialButton button;
     HashMap<String,String> tablelist;
+    MenuDataBase menuDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +67,10 @@ public class RestOrder extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressDialog.setMessage("Please wait loading menu");
         progressDialog.show();
-        RestOrderViewModel restOrderViewModel=new RestOrderViewModel();
-        restOrderViewModel.getListLiveData().observe(this, new Observer<List<MenuList>>() {
-            @Override
-            public void onChanged(List<MenuList> menuLists) {
-                RestOrderAdapter restOrderAdapter=new RestOrderAdapter(getBaseContext(),menuLists);
-                recyclerView.setAdapter(restOrderAdapter);
-                progressDialog.dismiss();
-            }
-        });
+        menuDataBase=new MenuDataBase(this);
+        RestOrderAdapter restOrderAdapter=new RestOrderAdapter(getBaseContext(),menuDataBase.getAllItems());
+        progressDialog.dismiss();
+        recyclerView.setAdapter(restOrderAdapter);
         tablelist=new HashMap<>();
         //button.setEnabled(false);
         fireBaseCall();
@@ -81,6 +78,27 @@ public class RestOrder extends AppCompatActivity {
         ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, new AllStringHere().getRestOrderSpinner(Integer.parseInt(nob.getTables())));
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String key=position+"";
+                if(tablelist.containsKey(key))
+                {
+                    button.setText("Order");
+                }
+                else
+                {
+                    button.setText("Order");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

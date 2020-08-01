@@ -15,6 +15,39 @@ public class MenuList {
     @SerializedName("price")
     @Expose
     private String price;
+    @SerializedName("itemtime")
+    @Expose
+    private String itemtime;
+    @SerializedName("curravail")
+    @Expose
+    private String curravail;
+    @SerializedName("rating")
+    @Expose
+    private String rating;
+
+    public String getItemtime() {
+        return itemtime;
+    }
+
+    public void setItemtime(String itemtime) {
+        this.itemtime = itemtime;
+    }
+
+    public String getCurravail() {
+        return curravail;
+    }
+
+    public void setCurravail(String curravail) {
+        this.curravail = curravail;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
     public String getItems() {
         return items;

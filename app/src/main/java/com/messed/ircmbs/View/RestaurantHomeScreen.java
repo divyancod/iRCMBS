@@ -68,6 +68,9 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
         {
             getRestData();
             fetchMenu();
+        }else
+        {
+            printMenu();
         }
         navdrawer_title.setText(nob.getRestname());
 //        FirebaseDatabase database;
@@ -141,7 +144,7 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
             @Override
             public void onResponse(Call<List<MenuList>> call, Response<List<MenuList>> response) {
                 for(int i=0;i<response.body().size();i++)
-                    Log.e("TAG",""+response.body().get(i).getItems());
+                    Log.e("TAG",""+response.body().get(i).getRating());
                 MenuDataBase nob=new MenuDataBase(getBaseContext());
                 nob.addMenu(response.body());
             }
@@ -151,5 +154,14 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
 
             }
         });
+    }
+    private void printMenu()
+    {
+        MenuDataBase nob=new MenuDataBase(getBaseContext());
+        List<MenuList> menu=nob.getAllItems();
+        for(int i=0;i<menu.size();i++)
+        {
+            Log.e("TAG","====="+menu.get(i).getItems()+"="+menu.get(i).getPrice()+"="+menu.get(i).getRating());
+        }
     }
 }

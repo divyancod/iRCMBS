@@ -11,10 +11,10 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 
+import com.messed.ircmbs.Model.MenuDataBase;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.R;
 import com.messed.ircmbs.View.Adapters.MenuViewAdapter;
-import com.messed.ircmbs.ViewModel.RestOrderViewModel;
 
 import java.util.List;
 /*
@@ -49,15 +49,10 @@ public class MenuViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressDialog.setMessage("Please wait loading menu");
         progressDialog.show();
-        RestOrderViewModel restOrderViewModel= ViewModelProviders.of(this).get(RestOrderViewModel.class);
-        restOrderViewModel.getListLiveData().observe(this, new Observer<List<MenuList>>() {
-            @Override
-            public void onChanged(List<MenuList> menuLists) {
-                menuViewAdapter=new MenuViewAdapter(menuLists,getBaseContext());
-                progressDialog.dismiss();
-                recyclerView.setAdapter(menuViewAdapter);
-            }
-        });
+        MenuDataBase menuDataBase=new MenuDataBase(getBaseContext());
+        menuViewAdapter=new MenuViewAdapter(menuDataBase.getAllItems(),getBaseContext());
+        recyclerView.setAdapter(menuViewAdapter);
+        progressDialog.dismiss();
     }
     @Override
     public boolean onSupportNavigateUp()

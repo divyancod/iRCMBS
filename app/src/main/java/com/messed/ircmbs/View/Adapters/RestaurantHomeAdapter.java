@@ -53,6 +53,11 @@ public class RestaurantHomeAdapter extends RecyclerView.Adapter<RestaurantHomeAd
                    break;
                    case 2: context.startActivity(new Intent(context, RestOrder.class));
                    break;
+                   case 3 : Intent intent=new Intent(context,RestOrder.class);
+                            intent.putExtra("frame",9);
+                            context.startActivity(intent);
+                            break;
+
                }
             }
         });

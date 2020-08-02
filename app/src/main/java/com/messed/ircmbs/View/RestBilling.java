@@ -203,7 +203,7 @@ public class RestBilling extends AppCompatActivity {
             items=items+")";
         }
         NetworkService networkService= RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
-        call=networkService.restOrders(items,totalbill.getText().toString(),userPreference.getResid());
+        call=networkService.restOrders(items,totalbill.getText().toString(),currtable,userPreference.getResid());
         call.enqueue(new Callback<SignUpCall>() {
             @Override
             public void onResponse(Call<SignUpCall> call, Response<SignUpCall> response) {

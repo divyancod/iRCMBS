@@ -23,6 +23,7 @@ import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
 import com.messed.ircmbs.R;
 import com.messed.ircmbs.Model.UserPreference;
+import com.messed.ircmbs.RestMyAccount;
 import com.messed.ircmbs.View.LoginActivities.LoginChoice;
 
 import java.util.List;
@@ -110,6 +111,12 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.restframelayout, new FragHomeScreen()).commit();
                 break;
+            case R.id.nav_myacc:
+                getSupportFragmentManager().beginTransaction().replace(R.id.restframelayout, new RestMyAccount()).commit();
+                break;
+            case R.id.nav_logout:
+                signOut();
+                break;
         }
         return true;
     }
@@ -125,12 +132,7 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
 
         switch (item.getItemId()) {
             case R.id.logout:
-                firebaseAuth.signOut();
-                nob.delete();
-                MenuDataBase menuDataBase=new MenuDataBase(this);
-                menuDataBase.deleteTable();
-                finish();
-                startActivity(new Intent(getBaseContext(), LoginChoice.class));
+                signOut();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -163,5 +165,14 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
         {
             Log.e("TAG","====="+menu.get(i).getItems()+"="+menu.get(i).getPrice()+"="+menu.get(i).getRating());
         }
+    }
+    private void signOut()
+    {
+        firebaseAuth.signOut();
+        nob.delete();
+        MenuDataBase menuDataBase=new MenuDataBase(this);
+        menuDataBase.deleteTable();
+        finish();
+        startActivity(new Intent(getBaseContext(), LoginChoice.class));
     }
 }

@@ -12,10 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".View.LoginActivities.RestSignUpDetails"></activity>
-        <activity android:name=".View.RestOrderConfirmation"
+        <activity android:name=".RestLiveTable"
             android:theme="@style/AppTheme.AfterNoActionBar"
-            />
+            ></activity>
+        <activity android:name=".View.LoginActivities.RestSignUpDetails" />
+        <activity
+            android:name=".View.RestOrderConfirmation"
+            android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity android:name=".View.LoginActivities.SignUpScreen" />
         <activity
             android:name=".View.RestOrder"

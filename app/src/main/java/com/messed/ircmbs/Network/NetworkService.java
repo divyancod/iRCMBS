@@ -45,6 +45,7 @@ public interface NetworkService {
     Call<SignUpCall> restOrders(
             @Field("items") String items,
             @Field("total") String total,
+            @Field("table") String table,
             @Field("resid") String resid);
 
 

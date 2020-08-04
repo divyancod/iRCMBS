@@ -12,9 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RestLiveTable"
+        <activity android:name=".RestEmployeeList"
             android:theme="@style/AppTheme.AfterNoActionBar"
             ></activity>
+        <activity android:name=".RestEmployeeAdd"
+            android:theme="@style/AppTheme.AfterNoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".SalesRecord"
+            android:theme="@style/AppTheme.AfterNoActionBar" />
+        <activity
+            android:name=".RestLiveTable"
+            android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity android:name=".View.LoginActivities.RestSignUpDetails" />
         <activity
             android:name=".View.RestOrderConfirmation"

@@ -2,8 +2,10 @@ package com.messed.ircmbs.Network;
 
 import androidx.annotation.NonNull;
 
+import com.messed.ircmbs.Model.EmpDataModel;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.Model.RestLoggedData;
+import com.messed.ircmbs.Model.SaleModel;
 import com.messed.ircmbs.Model.SignUpCall;
 
 import java.util.ArrayList;
@@ -48,5 +50,23 @@ public interface NetworkService {
             @Field("table") String table,
             @Field("resid") String resid);
 
+    @POST("/try/rest_order_history_get.php")
+    @FormUrlEncoded
+    Call<List<SaleModel>> salesList(
+            @Field("resid") String resid);
 
+    @POST("/try/rest_employee_add.php")
+    @FormUrlEncoded
+    Call<SignUpCall> addEmployee(
+            @Field("resid") String resid,
+            @Field("empname") String name,
+            @Field("emppost") String post,
+            @Field("empsalary") String salary,
+            @Field("empgovid") String govid,
+            @Field("empaddress") String address,
+            @Field("empphone") String empphone);
+    @POST("/try/rest_employee_get.php")
+    @FormUrlEncoded
+    Call<List<EmpDataModel>> getEmployee(
+            @Field("resid") String resid);
 }

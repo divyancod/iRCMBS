@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +29,7 @@ public class RestLiveTable extends AppCompatActivity {
     FirebaseDatabase database;
     ArrayList<String> tables;
     Toolbar toolbar;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,9 @@ public class RestLiveTable extends AppCompatActivity {
         recyclerView=findViewById(R.id.livetablerecycler);
         tables=new ArrayList<>();
         toolbar=findViewById(R.id.toolbar_all);
+        progressBar=new ProgressBar(this);
+        progressBar=findViewById(R.id.prgbar);
+        progressBar.setVisibility(View.VISIBLE);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +66,14 @@ public class RestLiveTable extends AppCompatActivity {
                 }
                 RestLiveOrderAdapter nob=new RestLiveOrderAdapter(getBaseContext(),tables);
                 recyclerView.setAdapter(nob);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(RestLiveTable.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }

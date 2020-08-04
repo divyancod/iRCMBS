@@ -71,7 +71,7 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
             fetchMenu();
         }else
         {
-            printMenu();
+            //printMenu();
         }
         navdrawer_title.setText(nob.getRestname());
 //        FirebaseDatabase database;

@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.messed.ircmbs.R;
+import com.messed.ircmbs.RestEmployeeList;
 import com.messed.ircmbs.RestLiveTable;
+import com.messed.ircmbs.SalesRecord;
 import com.messed.ircmbs.View.RestOrder;
 import com.messed.ircmbs.View.MenuViewActivity;
 import com.messed.ircmbs.View.RestBilling;
@@ -54,12 +56,14 @@ public class RestaurantHomeAdapter extends RecyclerView.Adapter<RestaurantHomeAd
                    break;
                    case 2: context.startActivity(new Intent(context, RestOrder.class));
                    break;
-                   case 3 : Intent intent=new Intent(context,RestOrder.class);
-                            intent.putExtra("frame",9);
+                   case 3 : Intent intent=new Intent(context, RestEmployeeList.class);
                             context.startActivity(intent);
                             break;
                    case 4: context.startActivity(new Intent(context, RestLiveTable.class));
                    break;
+                   case 8 :
+                       context.startActivity(new Intent(context, SalesRecord.class));
+                       break;
 
                }
             }

@@ -10,6 +10,15 @@
         android:id="@+id/include3"
         layout="@layout/toolbar_layout" />
 
+    <ProgressBar
+        android:id="@+id/prgbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/livetablerecycler"
+        app:layout_constraintTop_toBottomOf="@+id/include3" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/livetablerecycler"
         android:layout_width="match_parent"

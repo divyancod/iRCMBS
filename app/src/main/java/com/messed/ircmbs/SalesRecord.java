@@ -5,11 +5,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.messed.ircmbs.Model.SaleModel;
 import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.Network.NetworkService;
@@ -27,10 +29,12 @@ public class SalesRecord extends AppCompatActivity {
     Toolbar toolbar;
     Call<List<SaleModel>> call;
     RecyclerView recyclerView;
+    View parent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_record);
+        parent=findViewById(android.R.id.content);
         toolbar=findViewById(R.id.toolbar_all);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -46,19 +50,29 @@ public class SalesRecord extends AppCompatActivity {
     }
     private void fetchSales()
     {
+        final ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Please wait fetching sales history");
+        progressDialog.show();
         UserPreference userPreference=new UserPreference(this);
         NetworkService networkService= RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
         call=networkService.salesList(userPreference.getResid());
         call.enqueue(new Callback<List<SaleModel>>() {
             @Override
             public void onResponse(Call<List<SaleModel>> call, Response<List<SaleModel>> response) {
-                SalesRecordAdapter adapter=new SalesRecordAdapter(getBaseContext(),response.body());
-                recyclerView.setAdapter(adapter);
+                progressDialog.dismiss();
+                if(response.body()!=null) {
+                    SalesRecordAdapter adapter = new SalesRecordAdapter(getBaseContext(), response.body());
+                    recyclerView.setAdapter(adapter);
+                }else
+                {
+                    Snackbar.make(parent,"No sales record found",Snackbar.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(Call<List<SaleModel>> call, Throwable t) {
-                Toast.makeText(SalesRecord.this, "Unable to fetch data at this moment\nMay be Master Server is offline", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+                Snackbar.make(parent, "Unable to fetch data at this moment\nMay be Master Server is offline", Snackbar.LENGTH_LONG).show();
             }
         });
     }

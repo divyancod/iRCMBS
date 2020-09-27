@@ -36,7 +36,20 @@ public class UserPreference {
         editor.putInt("init",1);
         editor.commit();
     }
-
+    public void setAccountStatus(Context context,String status)
+    {
+        //1- deactive 0-active
+        if(preferences!=null)
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("accountstatus",status);
+            editor.commit();
+        }
+    }
+    public String getAccountStatus()
+    {
+        return preferences.getString("accountstatus","0");
+    }
     public static int getInit(Context context)
     {
         return context.getSharedPreferences("MySharedPref",0).getInt("init",0);

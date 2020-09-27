@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.messed.ircmbs.R;
@@ -19,7 +20,7 @@ import com.messed.ircmbs.View.RestaurantHomeScreen;
  * */
 public class LoginChoice extends AppCompatActivity {
 
-    MaterialButton button;
+    MaterialButton button,button2;
     MaterialTextView textView;
     static final String TAG="LoginChoice";
     FirebaseAuth firebaseAuth;
@@ -40,6 +41,7 @@ public class LoginChoice extends AppCompatActivity {
         getSupportActionBar().hide();
        getWindow().setStatusBarColor(Color.WHITE);
         button=findViewById(R.id.button);
+        button2=findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,9 +52,13 @@ public class LoginChoice extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getBaseContext(),SignUpScreen.class));
-                finish();
             }
         });
-
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v,"Coming Soon",Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 }

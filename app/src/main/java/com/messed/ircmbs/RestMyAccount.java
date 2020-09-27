@@ -4,11 +4,15 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.messed.ircmbs.Model.UserPreference;
 
 
@@ -19,7 +23,8 @@ public class RestMyAccount extends Fragment {
         // Required empty public constructor
     }
 
-    EditText restname,ownername,restadderss,restemp,resttables;
+    EditText restname,ownername,restadderss,restemp,resttables,restemail;
+    MaterialButton updatebutton;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +38,17 @@ public class RestMyAccount extends Fragment {
         restadderss=view.findViewById(R.id.myacc_address);
         restemp=view.findViewById(R.id.myacc_numemployees);
         resttables=view.findViewById(R.id.myacc_numtables);
+        restemail=view.findViewById(R.id.myacc_restemail);
+        updatebutton=view.findViewById(R.id.myacc_nextbutton);
+        restemail.setEnabled(false);
         setDetails();
+        updatebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v,"Coming Soon",Snackbar.LENGTH_LONG).show();
+                //TODO
+            }
+        });
         return view;
     }
     private void setDetails()
@@ -44,5 +59,6 @@ public class RestMyAccount extends Fragment {
         restadderss.setText(""+userPreference.getAddress());
         restemp.setText(""+userPreference.getEmployees());
         resttables.setText(""+userPreference.getTables());
+        restemail.setText(""+FirebaseAuth.getInstance().getCurrentUser().getEmail());
     }
 }

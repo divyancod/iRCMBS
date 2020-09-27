@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,12 +33,14 @@ public class RestLiveTable extends AppCompatActivity {
     ArrayList<String> tables;
     Toolbar toolbar;
     ProgressBar progressBar;
+    View parent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_live_table);
         recyclerView=findViewById(R.id.livetablerecycler);
         tables=new ArrayList<>();
+        parent=findViewById(android.R.id.content);
         toolbar=findViewById(R.id.toolbar_all);
         progressBar=new ProgressBar(this);
         progressBar=findViewById(R.id.prgbar);
@@ -60,9 +65,16 @@ public class RestLiveTable extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                boolean flag=true;
                 for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
                 {
                     tables.add(dataSnapshot1.getKey());
+                    flag=false;
+
+                }
+                if(flag)
+                {
+                    Snackbar.make(parent,"No Live Table Found",Snackbar.LENGTH_LONG).show();
                 }
                 RestLiveOrderAdapter nob=new RestLiveOrderAdapter(getBaseContext(),tables);
                 recyclerView.setAdapter(nob);

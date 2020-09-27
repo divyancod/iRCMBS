@@ -60,6 +60,7 @@ public class RestBilling extends AppCompatActivity {
     MaterialButton button;
     private Call<SignUpCall> call;
     String currtable;
+    View parent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +68,7 @@ public class RestBilling extends AppCompatActivity {
         spinner=findViewById(R.id.rest_billing_spinner);
         spinner.setPrompt("Title");
         toolbar=findViewById(R.id.toolbar_all);
+        parent=findViewById(android.R.id.content);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +93,7 @@ public class RestBilling extends AppCompatActivity {
         spinner.setEnabled(false);
         button.setEnabled(false);
         getTables();
+        Snackbar.make(parent,"Billing for spot has been disabled due to some server issue.Inconvenience is deeply regretted.",Snackbar.LENGTH_LONG).show();
         UserPreference nob=new UserPreference(getBaseContext());
         ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, new AllStringHere().getRestOrderSpinner(Integer.parseInt(nob.getTables())));
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

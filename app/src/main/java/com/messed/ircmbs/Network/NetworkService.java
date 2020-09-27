@@ -14,6 +14,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -23,7 +24,7 @@ import retrofit2.http.Query;
  * */
 
 public interface NetworkService {
-    @POST("/try/rest_signup.php")
+    @POST("/rest_signup.php")
     @FormUrlEncoded
     Call<SignUpCall> signupCall(
             @Field("restname") String restname,
@@ -34,15 +35,15 @@ public interface NetworkService {
             @Field("tables") String tables,
             @Field("employees") String employees);
 
-    @POST("/try/rest_profile.php")
+    @POST("/rest_profile.php")
     @FormUrlEncoded
     Call<RestLoggedData> restDataCall(
             @Field("restuid") String restuid);
 
-    @GET("/try/rest_menu_fetch.php")
+    @GET("/rest_menu_fetch.php")
     Call<List<MenuList>> getAllMenu();
 
-    @POST("/try/rest_order_history.php")
+    @POST("/rest_order_history.php")
     @FormUrlEncoded
     Call<SignUpCall> restOrders(
             @Field("items") String items,
@@ -50,12 +51,12 @@ public interface NetworkService {
             @Field("table") String table,
             @Field("resid") String resid);
 
-    @POST("/try/rest_order_history_get.php")
+    @POST("/rest_order_history_get.php")
     @FormUrlEncoded
     Call<List<SaleModel>> salesList(
             @Field("resid") String resid);
 
-    @POST("/try/rest_employee_add.php")
+    @POST("/rest_employee_add.php")
     @FormUrlEncoded
     Call<SignUpCall> addEmployee(
             @Field("resid") String resid,
@@ -65,8 +66,13 @@ public interface NetworkService {
             @Field("empgovid") String govid,
             @Field("empaddress") String address,
             @Field("empphone") String empphone);
-    @POST("/try/rest_employee_get.php")
+
+    @POST("/rest_employee_get.php")
     @FormUrlEncoded
     Call<List<EmpDataModel>> getEmployee(
             @Field("resid") String resid);
+
+    @POST("/usercheck.php")
+    @FormUrlEncoded
+    Call<SignUpCall> userCheck(@Field("userid") String custid);
 }

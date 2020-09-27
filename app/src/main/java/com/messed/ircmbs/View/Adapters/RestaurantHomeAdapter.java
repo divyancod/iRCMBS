@@ -2,16 +2,19 @@ package com.messed.ircmbs.View.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.R;
 import com.messed.ircmbs.RestEmployeeList;
 import com.messed.ircmbs.RestLiveTable;
@@ -48,6 +51,12 @@ public class RestaurantHomeAdapter extends RecyclerView.Adapter<RestaurantHomeAd
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserPreference nob=new UserPreference(context);
+                Log.e("tag","user"+nob.getAccountStatus());
+                if(nob.getAccountStatus().equals("1"))
+                {
+                    return;
+                }
                switch (position)
                {
                    case 0 : context.startActivity(new Intent(context, MenuViewActivity.class));
@@ -61,6 +70,15 @@ public class RestaurantHomeAdapter extends RecyclerView.Adapter<RestaurantHomeAd
                             break;
                    case 4: context.startActivity(new Intent(context, RestLiveTable.class));
                    break;
+                   case 5:
+                       Toast.makeText(context,"Coming soon",Toast.LENGTH_LONG).show();
+                       break;
+                   case 6:
+                       Toast.makeText(context,"Coming soon",Toast.LENGTH_LONG).show();
+                       break;
+                   case 7:
+                       Toast.makeText(context,"Coming soon",Toast.LENGTH_LONG).show();
+                       break;
                    case 8 :
                        context.startActivity(new Intent(context, SalesRecord.class));
                        break;

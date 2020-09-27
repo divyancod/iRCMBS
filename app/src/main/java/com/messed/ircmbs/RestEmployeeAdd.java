@@ -1,6 +1,7 @@
 package com.messed.ircmbs;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class RestEmployeeAdd extends AppCompatActivity {
     EditText name,post,address,phone,salary,govtid;
     MaterialButton button;
     Call<SignUpCall> call;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,15 @@ public class RestEmployeeAdd extends AppCompatActivity {
         salary=findViewById(R.id.employee_salary);
         govtid=findViewById(R.id.employee_govid);
         button=findViewById(R.id.add_employee);
+        toolbar=findViewById(R.id.toolbar_all);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

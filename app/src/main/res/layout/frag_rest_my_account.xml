@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RestMyAccount">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/myacc_apptitle"
@@ -16,16 +19,33 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="20dp"
         />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout9"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline17"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toBottomOf="@+id/myacc_apptitle"
+        app:startIconDrawable="@drawable/ic_email_black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/myacc_restemail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Registered Email" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline17"
         app:layout_constraintStart_toStartOf="@+id/guideline18"
-        app:layout_constraintTop_toBottomOf="@+id/myacc_apptitle"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9"
         app:startIconDrawable="@drawable/ic_baseline_fastfood_24">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -69,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
-            android:gravity="center_vertical"
+            android:gravity="start"
             android:hint="Address" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,3 +198,4 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

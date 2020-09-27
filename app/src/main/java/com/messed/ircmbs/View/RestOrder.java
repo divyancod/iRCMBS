@@ -138,4 +138,10 @@ public class RestOrder extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fireBaseCall();
+    }
 }

@@ -6,19 +6,22 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_main_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RestEmployeeList"
+        <activity
+            android:name=".MiscNoteActivity"
+            android:theme="@style/AppTheme.AfterNoActionBar"></activity>
+        <activity
+            android:name=".RestEmployeeList"
+            android:theme="@style/AppTheme.AfterNoActionBar" />
+        <activity
+            android:name=".RestEmployeeAdd"
             android:theme="@style/AppTheme.AfterNoActionBar"
-            ></activity>
-        <activity android:name=".RestEmployeeAdd"
-            android:theme="@style/AppTheme.AfterNoActionBar"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SalesRecord"
             android:theme="@style/AppTheme.AfterNoActionBar" />

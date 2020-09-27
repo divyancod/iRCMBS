@@ -140,6 +140,7 @@
         app:layout_constraintGuide_percent="0.3" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/alreadyuser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"

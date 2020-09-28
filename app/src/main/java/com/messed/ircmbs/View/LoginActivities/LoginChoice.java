@@ -58,6 +58,7 @@ public class LoginChoice extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Snackbar.make(v,"Coming Soon",Snackbar.LENGTH_LONG).show();
+                //TODO add employee login(api required)
             }
         });
     }

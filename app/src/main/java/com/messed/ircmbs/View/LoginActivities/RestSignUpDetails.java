@@ -31,7 +31,7 @@ import retrofit2.Response;
  * */
 public class RestSignUpDetails extends AppCompatActivity {
 
-    TextInputEditText restname,restownername,restaddress,restemployees,resttables;
+    TextInputEditText restname,restownername,restaddress,restemployees,resttables,restphone;
     MaterialCheckBox checkBox;
     MaterialButton button;
     FirebaseAuth firebaseAuth;
@@ -51,6 +51,7 @@ public class RestSignUpDetails extends AppCompatActivity {
         restemployees=findViewById(R.id.signup_numemployees);
         checkBox=findViewById(R.id.cloudornot);
         button=findViewById(R.id.nextbutton);
+        restphone=findViewById(R.id.signup_phone);
         restownername.setText(fullname);
         firebaseAuth=FirebaseAuth.getInstance();
         button.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +76,7 @@ public class RestSignUpDetails extends AppCompatActivity {
         String raddress=restaddress.getText().toString();
         String rnumtables=resttables.getText().toString();
         String rnumemp=restemployees.getText().toString();
+        String rphone=restphone.getText().toString();
         if(rname.isEmpty() || rowner.isEmpty() || raddress.isEmpty() || rnumtables.isEmpty() || rnumemp.isEmpty())
         {
             Toast.makeText(RestSignUpDetails.this,"All fields Required",Toast.LENGTH_LONG).show();
@@ -91,7 +93,7 @@ public class RestSignUpDetails extends AppCompatActivity {
         //FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
        // Log.e("TAG",""+currentFirebaseUser.getUid());
         NetworkService networkService= RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
-        call=networkService.signupCall(rname,firebaseAuth.getUid(),rowner,raddress,n,rnumtables,rnumemp);
+        call=networkService.signupCall(rname,firebaseAuth.getUid(),rowner,raddress,n,rnumtables,rnumemp,rphone);
         call.enqueue(new Callback<SignUpCall>() {
             @Override
             public void onResponse(Call<SignUpCall> call, Response<SignUpCall> response) {

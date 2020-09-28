@@ -33,7 +33,9 @@ public interface NetworkService {
             @Field("address") String address,
             @Field("cloudkitchen") String cloud,
             @Field("tables") String tables,
-            @Field("employees") String employees);
+            @Field("employees") String employees,
+            @Field("phone") String phone
+    );
 
     @POST("/rest_profile.php")
     @FormUrlEncoded

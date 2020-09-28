@@ -102,7 +102,7 @@ public class RestBilling extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String key=position+"";
-                if(position>0) {
+                if(position>=0) {
                     if(tablelist.containsKey(key))
                     {
                         button.setEnabled(true);

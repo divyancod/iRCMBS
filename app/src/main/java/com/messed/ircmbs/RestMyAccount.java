@@ -23,7 +23,7 @@ public class RestMyAccount extends Fragment {
         // Required empty public constructor
     }
 
-    EditText restname,ownername,restadderss,restemp,resttables,restemail;
+    EditText restname,ownername,restadderss,restemp,resttables,restemail,restphone;
     MaterialButton updatebutton;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,13 +40,14 @@ public class RestMyAccount extends Fragment {
         resttables=view.findViewById(R.id.myacc_numtables);
         restemail=view.findViewById(R.id.myacc_restemail);
         updatebutton=view.findViewById(R.id.myacc_nextbutton);
+        restphone=view.findViewById(R.id.myacc_phone);
         restemail.setEnabled(false);
         setDetails();
         updatebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Snackbar.make(v,"Coming Soon",Snackbar.LENGTH_LONG).show();
-                //TODO
+                //TODO update profile(api needed)
             }
         });
         return view;
@@ -60,5 +61,6 @@ public class RestMyAccount extends Fragment {
         restemp.setText(""+userPreference.getEmployees());
         resttables.setText(""+userPreference.getTables());
         restemail.setText(""+FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        restphone.setText(""+userPreference.getPhone());
     }
 }

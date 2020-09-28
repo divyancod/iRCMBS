@@ -33,6 +33,7 @@ public class UserPreference {
         editor.putString("cloudornot",restLoggedData.getCloudornot());
         editor.putString("tables",restLoggedData.getTables());
         editor.putString("employees",restLoggedData.getEmployees());
+        editor.putString("phone",restLoggedData.getPhonenumber());
         editor.putInt("init",1);
         editor.commit();
     }
@@ -88,6 +89,10 @@ public class UserPreference {
     public String getEmployees() {
         employees=preferences.getString("employees",null);
         return employees;
+    }
+    public String getPhone()
+    {
+        return preferences.getString("phone",null);
     }
 
     public void delete()

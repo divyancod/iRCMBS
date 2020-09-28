@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.messed.ircmbs.Model.SaleModel;
 import com.messed.ircmbs.R;
@@ -35,6 +36,12 @@ public class SalesRecordAdapter extends RecyclerView.Adapter<SalesRecordAdapter.
         holder.t1.setText("Table no- "+saleModelList.get(position).getTableno());
         holder.t2.setText(""+saleModelList.get(position).getTotalprice());
         holder.t3.setText(""+saleModelList.get(position).getTime());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO sales details list to be added here
+            }
+        });
     }
 
     @Override
@@ -44,11 +51,13 @@ public class SalesRecordAdapter extends RecyclerView.Adapter<SalesRecordAdapter.
 
     public class SalesRecordViewHolder extends RecyclerView.ViewHolder{
         MaterialTextView t1,t2,t3;
+        MaterialCardView cardView;
         public SalesRecordViewHolder(@NonNull View itemView) {
             super(itemView);
             t1=itemView.findViewById(R.id.sales_table);
             t2=itemView.findViewById(R.id.sales_price);
             t3=itemView.findViewById(R.id.sales_date);
+            cardView=itemView.findViewById(R.id.sales_cardlayout);
         }
     }
 }

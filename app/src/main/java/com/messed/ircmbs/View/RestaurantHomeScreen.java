@@ -7,7 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -135,7 +137,7 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
                 startActivity(new Intent(RestaurantHomeScreen.this, MiscNoteActivity.class));
                 break;
             case R.id.contactus:
-                String url = "http://divyanshu123.000webhostapp.com/menuadd.html";
+                String url = "http://divyanshu123.000webhostapp.com/";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
@@ -232,5 +234,14 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
     @Override
     protected void onResume() {
         super.onResume();
+        if(!isNetworkConnected())
+        {
+            Snackbar.make(findViewById(android.R.id.content),"Seems like you are offline",Snackbar.LENGTH_LONG).show();
+        }
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }

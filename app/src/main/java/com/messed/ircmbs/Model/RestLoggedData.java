@@ -29,6 +29,17 @@ public class RestLoggedData {
     @SerializedName("employees")
     @Expose
     private String employees;
+    @SerializedName("phonenumber")
+    @Expose
+    private String phonenumber;
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
 
     public String getResid() {
         return resid;

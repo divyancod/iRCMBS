@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.messed.ircmbs.Model.EmpDataModel;
 
@@ -36,6 +37,12 @@ public class RestEmployeeAdapter extends RecyclerView.Adapter<RestEmployeeAdapte
         holder.t1.setText(""+empList.get(position).getEmpname());
         holder.t2.setText(""+empList.get(position).getEmppost());
         holder.t3.setText("Rs. "+empList.get(position).getEmpsalary());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO employee details
+            }
+        });
     }
 
     @Override
@@ -45,11 +52,13 @@ public class RestEmployeeAdapter extends RecyclerView.Adapter<RestEmployeeAdapte
 
     public class RestEmployeeViewHolder extends RecyclerView.ViewHolder{
         MaterialTextView t1,t2,t3;
+        MaterialCardView cardView;
         public RestEmployeeViewHolder(@NonNull View itemView) {
             super(itemView);
             t1=itemView.findViewById(R.id.emp_name);
             t2=itemView.findViewById(R.id.emp_post);
             t3=itemView.findViewById(R.id.emp_salary);
+            cardView=itemView.findViewById(R.id.employee_cardlayout);
         }
     }
 }

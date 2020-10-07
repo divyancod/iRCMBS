@@ -77,4 +77,17 @@ public interface NetworkService {
     @POST("/usercheck.php")
     @FormUrlEncoded
     Call<SignUpCall> userCheck(@Field("userid") String custid);
+
+    @POST("/update_rest_details.php")
+    @FormUrlEncoded
+    Call<SignUpCall> updateProfileCall(
+            @Field("restname") String restname,
+            @Field("restuid") String restuid,
+            @Field("owner") String owner,
+            @Field("address") String address,
+            @Field("cloudkitchen") String cloud,
+            @Field("tables") String tables,
+            @Field("employees") String employees,
+            @Field("phone") String phone
+    );
 }

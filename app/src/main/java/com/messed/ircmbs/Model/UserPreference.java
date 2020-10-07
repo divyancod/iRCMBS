@@ -37,6 +37,60 @@ public class UserPreference {
         editor.putInt("init",1);
         editor.commit();
     }
+    public void setCloudornot(String cloud)
+    {
+        if(preferences!=null)
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("cloudornot",cloud);
+            editor.commit();
+        }
+    }
+    public void setTables(String tables)
+    {
+        if(preferences!=null)
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("tables",tables);
+            editor.commit();
+        }
+    }
+    public void setPhone(String phone)
+    {
+        if(preferences!=null)
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("phone",phone);
+            editor.commit();
+        }
+    }
+    public void setEmployees(String employees)
+    {
+        if(preferences!=null)
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("employees",employees);
+            editor.commit();
+        }
+    }
+    public void setAddress(String address)
+    {
+        if(preferences!=null)
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("address",address);
+            editor.commit();
+        }
+    }
+    public void setOwner(String owner)
+    {
+        if(preferences!=null)
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("owner",owner);
+            editor.commit();
+        }
+    }
     public void setAccountStatus(Context context,String status)
     {
         //1- deactive 0-active
@@ -44,6 +98,15 @@ public class UserPreference {
         {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("accountstatus",status);
+            editor.commit();
+        }
+    }
+    public void setRestname(String name)
+    {
+        if(preferences!=null)
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("restname",name);
             editor.commit();
         }
     }

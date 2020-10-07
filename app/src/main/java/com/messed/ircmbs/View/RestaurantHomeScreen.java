@@ -32,6 +32,7 @@ import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
 import com.messed.ircmbs.R;
 import com.messed.ircmbs.Model.UserPreference;
+import com.messed.ircmbs.RestAccountGST;
 import com.messed.ircmbs.RestMyAccount;
 import com.messed.ircmbs.SalesRecord;
 import com.messed.ircmbs.View.LoginActivities.LoginChoice;
@@ -131,7 +132,7 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
                 signOut();
                 break;
             case R.id.nav_earning:
-                Toast.makeText(this,"Coming Soon",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(RestaurantHomeScreen.this, RestAccountGST.class));
                 break;
             case R.id.nav_note:
                 startActivity(new Intent(RestaurantHomeScreen.this, MiscNoteActivity.class));
@@ -142,6 +143,7 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
                 i.setData(Uri.parse(url));
                 startActivity(i);
                 break;
+
         }
         return true;
     }
@@ -230,18 +232,40 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
             }
         });
     }
-
+    Snackbar snackbar;
+    void noInternet()
+    {
+        if(snackbar==null) {
+            snackbar = Snackbar.make(findViewById(android.R.id.content), "Seems like you are offline", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkConnection();
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
+        }else {
+            snackbar.show();
+        }
+    }
+    void checkConnection()
+    {
+        if(!isNetworkConnected())
+        {
+            noInternet();
+        }else
+        {
+            if(snackbar!=null && snackbar.isShown())
+                snackbar.dismiss();
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
-        if(!isNetworkConnected())
-        {
-            Snackbar.make(findViewById(android.R.id.content),"Seems like you are offline",Snackbar.LENGTH_LONG).show();
-        }
+        checkConnection();
     }
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }

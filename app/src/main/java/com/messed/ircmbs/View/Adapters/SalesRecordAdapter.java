@@ -1,6 +1,7 @@
 package com.messed.ircmbs.View.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class SalesRecordAdapter extends RecyclerView.Adapter<SalesRecordAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SalesRecordViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SalesRecordViewHolder holder, final int position) {
         holder.t1.setText("Table no- "+saleModelList.get(position).getTableno());
         holder.t2.setText(""+saleModelList.get(position).getTotalprice());
         holder.t3.setText(""+saleModelList.get(position).getTime());
@@ -40,6 +41,7 @@ public class SalesRecordAdapter extends RecyclerView.Adapter<SalesRecordAdapter.
             @Override
             public void onClick(View v) {
                 //TODO sales details list to be added here
+                Log.e("TAG",""+saleModelList.get(position).getTotalitems());
             }
         });
     }

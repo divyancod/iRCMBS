@@ -175,8 +175,6 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
         menuCall.enqueue(new Callback<List<MenuList>>() {
             @Override
             public void onResponse(Call<List<MenuList>> call, Response<List<MenuList>> response) {
-                for(int i=0;i<response.body().size();i++)
-                    Log.e("TAG",""+response.body().get(i).getRating());
                 MenuDataBase nob=new MenuDataBase(getBaseContext());
                 nob.addMenu(response.body());
                 progressDialog.dismiss();

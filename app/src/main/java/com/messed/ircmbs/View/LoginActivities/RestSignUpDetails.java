@@ -42,7 +42,7 @@ public class RestSignUpDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_sign_up_details);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         String fullname=getIntent().getExtras().getString("Name");
         restname=findViewById(R.id.signup_restname);
         restownername=findViewById(R.id.signup_ownername);

@@ -13,7 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RestAccountGST"></activity>
+        <activity android:name=".SingleEmployeeActivity"></activity>
+        <activity
+            android:name=".AccountSettings"
+            android:theme="@style/AppTheme.AfterNoActionBar" />
+        <activity android:name=".RestAccountGST" />
         <activity
             android:name=".MiscNoteActivity"
             android:theme="@style/AppTheme.AfterNoActionBar" />
@@ -22,8 +26,7 @@
             android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity
             android:name=".RestEmployeeAdd"
-            android:theme="@style/AppTheme.AfterNoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity
             android:name=".SalesRecord"
             android:theme="@style/AppTheme.AfterNoActionBar" />
@@ -49,6 +52,10 @@
             android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity android:name=".View.LoginActivities.LoginRest" />
         <activity android:name=".View.LoginActivities.LoginChoice" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

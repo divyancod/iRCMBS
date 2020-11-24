@@ -67,6 +67,7 @@ public class RestMyAccount extends Fragment {
         });
         return view;
     }
+    
     private void setDetails()
     {
         UserPreference userPreference=new UserPreference(getActivity());

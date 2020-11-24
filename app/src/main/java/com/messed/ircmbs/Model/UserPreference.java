@@ -17,6 +17,7 @@ public class UserPreference {
     private String cloudornot;
     private String tables;
     private String employees;
+    private String profilepic;
     public UserPreference(Context context)
     {
         preferences=context.getSharedPreferences("MySharedPref",0);
@@ -34,9 +35,11 @@ public class UserPreference {
         editor.putString("tables",restLoggedData.getTables());
         editor.putString("employees",restLoggedData.getEmployees());
         editor.putString("phone",restLoggedData.getPhonenumber());
+        editor.putString("profilepic",restLoggedData.getProfilepic());
         editor.putInt("init",1);
         editor.commit();
     }
+
     public void setCloudornot(String cloud)
     {
         if(preferences!=null)
@@ -161,5 +164,19 @@ public class UserPreference {
     public void delete()
     {
         preferences.edit().clear().commit();
+    }
+    public String getProfilePic()
+    {
+        profilepic=preferences.getString("profilepic","");
+        return profilepic;
+    }
+    public void setProfilepic(String piclink)
+    {
+        if(preferences!=null)
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("profilepic",piclink);
+            editor.commit();
+        }
     }
 }

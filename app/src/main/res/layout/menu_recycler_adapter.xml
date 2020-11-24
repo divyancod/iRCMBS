@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:elevation="5dp"
-        app:cardCornerRadius="5dp"
-        >
+        app:cardCornerRadius="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/menu_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/templogo" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/menuitemname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/menu_img"
                 android:fontFamily="@font/nunito_semibold"
                 android:text="MenuItem"
-                android:layout_toLeftOf="@id/menuitemprice"
                 android:textSize="20sp" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -34,24 +37,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="200"
                 android:textSize="20sp" />
+
             <RatingBar
                 android:id="@+id/ratingbar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_below="@id/menuitemname"
-                android:layout_marginLeft="30dp"
-                android:numStars="5"
-                android:rating="1.5"
-                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/menu_img"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:numStars="5"
                 android:progressTint="@color/colorDarkBlue"
-                />
+                android:rating="1.5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/itemdesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ratingbar"
+                android:layout_toRightOf="@id/menu_img"
+                android:layout_marginBottom="5dp"
+                android:text="item desc"
+                android:textSize="10dp" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 

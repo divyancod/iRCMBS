@@ -1,23 +1,31 @@
 package com.messed.ircmbs.Network;
 
+import android.database.Observable;
+
 import androidx.annotation.NonNull;
 
+import com.messed.ircmbs.Employee;
+import com.messed.ircmbs.EmployeeRecordResponse;
 import com.messed.ircmbs.Model.EmpDataModel;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.Model.RestLoggedData;
 import com.messed.ircmbs.Model.SaleModel;
 import com.messed.ircmbs.Model.SignUpCall;
+import com.squareup.okhttp.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 /*
  * Created By MrMessedUp(Divyanshu Verma)
@@ -58,7 +66,7 @@ public interface NetworkService {
     Call<List<SaleModel>> salesList(
             @Field("resid") String resid);
 
-    @POST("/rest_employee_add.php")
+    @POST("/rest_employee_add_new.php")
     @FormUrlEncoded
     Call<SignUpCall> addEmployee(
             @Field("resid") String resid,
@@ -90,4 +98,33 @@ public interface NetworkService {
             @Field("employees") String employees,
             @Field("phone") String phone
     );
+    @Multipart
+    @POST("/uptest.php?upload")
+    Call<SignUpCall> tester(@Part MultipartBody.Part userProfileImage);
+
+    @POST("/update_profile_pic.php")
+    @FormUrlEncoded
+    Call<SignUpCall> updateProfilePic(@Field("userid") String custid,@Field("profilepic")String profilepic);
+
+    @POST("/rest_employee_update_new.php")
+    @FormUrlEncoded
+    Call<EmployeeRecordResponse> allInOneEmployee(@Field("requireupdate") String requireupdate,
+                                                  @Field("resid") String resid,
+                                                  @Field("empid") String empid,
+                                                  @Field("empname") String name,
+                                                  @Field("emppost") String post,
+                                                  @Field("empsalary") String salary,
+                                                  @Field("empgovid") String govid,
+                                                  @Field("empaddress") String address,
+                                                  @Field("empphone") String empphone);
+    @POST("/rest_employee_update_new.php")
+    @FormUrlEncoded
+    Call<List<Employee>> allInOneSingleEmployee(@Field("requireupdate") String requireupdate,
+                                    @Field("empid") String empid,
+                                    @Field("empname") String name,
+                                    @Field("emppost") String post,
+                                    @Field("empsalary") String salary,
+                                    @Field("empgovid") String govid,
+                                    @Field("empaddress") String address,
+                                    @Field("empphone") String empphone, @Field("empprofilepic")String profilepic);
 }

@@ -26,6 +26,18 @@ public class EmpDataModel {
     @Expose
     private String empphone;
 
+    @SerializedName("empprofilepic")
+    @Expose
+    private String empprofilepic;
+
+    public String getEmpprofilepic() {
+        return empprofilepic;
+    }
+
+    public void setEmpprofilepic(String empprofilepic) {
+        this.empprofilepic = empprofilepic;
+    }
+
     public String getEmpid() {
         return empid;
     }

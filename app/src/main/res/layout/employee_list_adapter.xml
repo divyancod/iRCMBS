@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/employee_cardlayout"
@@ -21,37 +21,48 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/emp_pic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:src="@drawable/templogo" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/emp_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/emp_pic"
                 android:fontFamily="@font/nunito_bold"
                 android:padding="10dp"
                 android:text="Order From"
                 android:textColor="@color/colorDarkBlue"
-                android:layout_alignParentLeft="true"
                 android:textSize="18sp" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/emp_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:fontFamily="@font/nunito_bold"
                 android:padding="10dp"
                 android:text="RS.1000"
-                android:textSize="18sp"
                 android:textColor="@color/colorred"
-                android:layout_alignParentRight="true"
-                />
+                android:textSize="18sp" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/emp_salary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2020-01-02"
-                android:fontFamily="@font/nunito_semibold"
                 android:layout_below="@id/emp_name"
+                android:layout_toRightOf="@id/emp_pic"
+                android:fontFamily="@font/nunito_semibold"
                 android:paddingLeft="10dp"
                 android:paddingBottom="5dp"
-                />
+                android:text="2020-01-02" />
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 

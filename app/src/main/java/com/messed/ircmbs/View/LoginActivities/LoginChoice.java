@@ -38,7 +38,7 @@ public class LoginChoice extends AppCompatActivity {
         }
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
        getWindow().setStatusBarColor(Color.WHITE);
         button=findViewById(R.id.button);
         button2=findViewById(R.id.button2);

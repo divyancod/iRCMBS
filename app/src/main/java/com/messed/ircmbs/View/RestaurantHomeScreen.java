@@ -16,13 +16,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.messed.ircmbs.AccountSettings;
+import com.messed.ircmbs.MainActivity;
 import com.messed.ircmbs.MiscNoteActivity;
 import com.messed.ircmbs.Model.MenuDataBase;
 import com.messed.ircmbs.Model.MenuList;
@@ -38,10 +42,13 @@ import com.messed.ircmbs.SalesRecord;
 import com.messed.ircmbs.View.LoginActivities.LoginChoice;
 
 import java.util.List;
+import java.util.Observable;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 /*
  * Created By MrMessedUp(Divyanshu Verma)
  * */
@@ -54,20 +61,25 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
     private Call<List<MenuList>> menuCall;
     private Call<SignUpCall> userCheckCall;
     TextView navdrawer_title;
-    static final String TAG="RestHome";
+    static final String TAG = "RestHome";
     private UserPreference nob;
+    CircleImageView profilepic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.restaurant_home_screen);
-        toolbar=findViewById(R.id.toolbar_home);
-        drawerLayout=findViewById(R.id.drawer_home);
-        navigationView=findViewById(R.id.navbar_home);
+        toolbar = findViewById(R.id.toolbar_home);
+        drawerLayout = findViewById(R.id.drawer_home);
+        navigationView = findViewById(R.id.navbar_home);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        firebaseAuth=FirebaseAuth.getInstance();
-        View headerview=navigationView.getHeaderView(0);
-        navdrawer_title=headerview.findViewById(R.id.nav_drawer_textfield);
+        firebaseAuth = FirebaseAuth.getInstance();
+        View headerview = navigationView.getHeaderView(0);
+        navdrawer_title = headerview.findViewById(R.id.nav_drawer_textfield);
+        profilepic = headerview.findViewById(R.id.profile_image);
+        Log.e("TAG", "" + profilepic);
+        String test = "http://divyanshu123.000webhostapp.com/frontend/pic001.jpg";
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_draw_open, R.string.nav_draw_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -76,37 +88,28 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
             getSupportFragmentManager().beginTransaction().replace(R.id.restframelayout, new FragHomeScreen()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
-        nob=new UserPreference(getBaseContext());
-        if(UserPreference.getInit(getBaseContext())==0)
-        {
+        nob = new UserPreference(getBaseContext());
+        if (UserPreference.getInit(getBaseContext()) == 0) {
             getRestData();
             fetchMenu();
-            userCheckCal();
-        }else
-        {
-            //printMenu();
-            userCheckCal();
+            userCheckCal(true);
+        } else {
+            userCheckCal(false);
+            navdrawer_title.setText(nob.getRestname());
+            Glide.with(getApplicationContext()).load(nob.getProfilePic()).placeholder(R.drawable.templogo).error(R.drawable.templogo).into(profilepic);
         }
-        navdrawer_title.setText(nob.getRestname());
-//        FirebaseDatabase database;
-//        DatabaseReference reference;
-//        database = FirebaseDatabase.getInstance();
-//        reference = database.getReference(firebaseAuth.getUid());
-//        //String id =reference.push().getKey();
-//        reference=database.getReference(firebaseAuth.getUid()).child("Table");
-//        reference.setValue("","");
     }
 
-    private void getRestData()
-    {
-        NetworkService networkService= RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
-        call=networkService.restDataCall(firebaseAuth.getUid());
+    private void getRestData() {
+        NetworkService networkService = RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
+        call = networkService.restDataCall(firebaseAuth.getUid());
         call.enqueue(new Callback<RestLoggedData>() {
             @Override
             public void onResponse(Call<RestLoggedData> call, Response<RestLoggedData> response) {
-                Log.e("TAG","Getting Rest Data From Server");
-                nob.setData(getBaseContext(),response.body());
+                Log.e("TAG", "Getting Rest Data From Server");
+                nob.setData(getBaseContext(), response.body());
                 navdrawer_title.setText(response.body().getRestname());
+                Glide.with(getApplicationContext()).load(response.body().getProfilepic()).placeholder(R.drawable.templogo).error(R.drawable.templogo).into(profilepic);
             }
 
             @Override
@@ -126,7 +129,8 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
                 getSupportFragmentManager().beginTransaction().replace(R.id.restframelayout, new FragHomeScreen()).commit();
                 break;
             case R.id.nav_myacc:
-                getSupportFragmentManager().beginTransaction().replace(R.id.restframelayout, new RestMyAccount()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.restframelayout, new RestMyAccount()).commit();
+                startActivity(new Intent(RestaurantHomeScreen.this, AccountSettings.class));
                 break;
             case R.id.nav_logout:
                 signOut();
@@ -153,6 +157,7 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
         getMenuInflater().inflate(R.menu.side_menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -165,17 +170,17 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
                 return super.onOptionsItemSelected(item);
         }
     }
-    private void fetchMenu()
-    {
-        final ProgressDialog progressDialog=new ProgressDialog(this);
+
+    private void fetchMenu() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait fetching the default menu from server");
         progressDialog.show();
-        NetworkService networkService= RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
-        menuCall=networkService.getAllMenu();
+        NetworkService networkService = RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
+        menuCall = networkService.getAllMenu();
         menuCall.enqueue(new Callback<List<MenuList>>() {
             @Override
             public void onResponse(Call<List<MenuList>> call, Response<List<MenuList>> response) {
-                MenuDataBase nob=new MenuDataBase(getBaseContext());
+                MenuDataBase nob = new MenuDataBase(getBaseContext());
                 nob.addMenu(response.body());
                 progressDialog.dismiss();
             }
@@ -186,54 +191,57 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
             }
         });
     }
-    private void printMenu()
-    {
-        MenuDataBase nob=new MenuDataBase(getBaseContext());
-        List<MenuList> menu=nob.getAllItems();
-        for(int i=0;i<menu.size();i++)
-        {
-            Log.e("TAG","====="+menu.get(i).getItems()+"="+menu.get(i).getPrice()+"="+menu.get(i).getRating());
+
+    private void printMenu() {
+        MenuDataBase nob = new MenuDataBase(getBaseContext());
+        List<MenuList> menu = nob.getAllItems();
+        for (int i = 0; i < menu.size(); i++) {
+            Log.e("TAG", "=====" + menu.get(i).getItems() + "=" + menu.get(i).getPrice() + "=" + menu.get(i).getRating());
         }
     }
-    private void signOut()
-    {
+
+    private void signOut() {
         firebaseAuth.signOut();
         nob.delete();
-        MenuDataBase menuDataBase=new MenuDataBase(this);
+        MenuDataBase menuDataBase = new MenuDataBase(this);
         menuDataBase.deleteTable();
         finish();
         startActivity(new Intent(getBaseContext(), LoginChoice.class));
     }
-    private void userCheckCal()
-    {
-        String resid= firebaseAuth.getCurrentUser().getUid();
-        NetworkService networkService= RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
-        userCheckCall=networkService.userCheck(resid);
-        userCheckCall.enqueue(new Callback<SignUpCall>() {
-            @Override
-            public void onResponse(Call<SignUpCall> call, Response<SignUpCall> response) {
-                Log.e("tag",""+response.body().getStatus());
-                UserPreference nob=new UserPreference(RestaurantHomeScreen.this);
-                if(response.body().getError().equals("1"))
-                {
-                    nob.setAccountStatus(RestaurantHomeScreen.this,response.body().getError());
-                    Snackbar.make(findViewById(android.R.id.content),"Account not verified contact developer at divyanfun@gmail.com",Snackbar.LENGTH_INDEFINITE).show();
-                }else
-                {
-                    nob.setAccountStatus(RestaurantHomeScreen.this,response.body().getError());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<SignUpCall> call, Throwable t) {
-                Log.e("tag",""+t);
-            }
-        });
+    private void userCheckCal(boolean callrequired) {
+        final UserPreference userPreference = new UserPreference(RestaurantHomeScreen.this);
+        if (userPreference.getAccountStatus().equals("1")) {
+            Snackbar.make(findViewById(android.R.id.content), "Account not verified contact developer at divyanfun@gmail.com", Snackbar.LENGTH_INDEFINITE).show();
+        } else if (callrequired) {
+            String resid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            NetworkService networkService = RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
+            userCheckCall = networkService.userCheck(resid);
+            userCheckCall.enqueue(new Callback<SignUpCall>() {
+                @Override
+                public void onResponse(Call<SignUpCall> call, Response<SignUpCall> response) {
+                    Log.e("tag", "" + response.body().getStatus());
+                    UserPreference nob = new UserPreference(RestaurantHomeScreen.this);
+                    if (response.body().getError().equals("1")) {
+                        nob.setAccountStatus(RestaurantHomeScreen.this, response.body().getError());
+                    Snackbar.make(findViewById(android.R.id.content), "Account not verified contact developer at divyanfun@gmail.com", Snackbar.LENGTH_INDEFINITE).show();
+                    } else {
+                        nob.setAccountStatus(RestaurantHomeScreen.this, response.body().getError());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SignUpCall> call, Throwable t) {
+                    Log.e("tag", "" + t);
+                }
+            });
+        }
     }
+
     Snackbar snackbar;
-    void noInternet()
-    {
-        if(snackbar==null) {
+
+    void noInternet() {
+        if (snackbar == null) {
             snackbar = Snackbar.make(findViewById(android.R.id.content), "Seems like you are offline", Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -242,26 +250,30 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
                 }
             });
             snackbar.show();
-        }else {
+        } else {
             snackbar.show();
         }
     }
-    void checkConnection()
-    {
-        if(!isNetworkConnected())
-        {
+
+    void checkConnection() {
+        if (!isNetworkConnected()) {
             noInternet();
-        }else
-        {
-            if(snackbar!=null && snackbar.isShown())
+        } else {
+            if (snackbar != null && snackbar.isShown())
                 snackbar.dismiss();
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         checkConnection();
+        if (nob != null) {
+            navdrawer_title.setText(nob.getRestname());
+            Glide.with(getApplicationContext()).load(nob.getProfilePic()).placeholder(R.drawable.templogo).error(R.drawable.templogo).into(profilepic);
+        }
     }
+
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();

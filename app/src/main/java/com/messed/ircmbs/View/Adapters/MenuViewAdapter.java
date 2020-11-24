@@ -41,6 +41,7 @@ public class MenuViewAdapter extends RecyclerView.Adapter<MenuViewAdapter.MenuVi
         holder.t1.setText(""+menuList.get(position).getItems());
         holder.t2.setText("Rs."+menuList.get(position).getPrice());
         holder.ratingBar.setRating(Float.parseFloat(menuList.get(position).getRating()));
+        holder.t3.setText(""+menuList.get(position).getItemdesc());
     }
 
     @Override
@@ -49,13 +50,14 @@ public class MenuViewAdapter extends RecyclerView.Adapter<MenuViewAdapter.MenuVi
     }
 
     public class MenuViewViewHolder extends RecyclerView.ViewHolder {
-        TextView t1,t2;
+        TextView t1,t2,t3;
         RatingBar ratingBar;
         public MenuViewViewHolder(@NonNull View itemView) {
             super(itemView);
             t1=itemView.findViewById(R.id.menuitemname);
             t2=itemView.findViewById(R.id.menuitemprice);
             ratingBar=itemView.findViewById(R.id.ratingbar);
+            t3=itemView.findViewById(R.id.itemdesc);
         }
     }
 }

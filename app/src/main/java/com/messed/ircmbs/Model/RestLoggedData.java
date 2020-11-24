@@ -32,6 +32,9 @@ public class RestLoggedData {
     @SerializedName("phonenumber")
     @Expose
     private String phonenumber;
+    @SerializedName("profilepic")
+    @Expose
+    private String profilepic;
 
     public String getPhonenumber() {
         return phonenumber;
@@ -97,4 +100,11 @@ public class RestLoggedData {
         this.employees = employees;
     }
 
+    public String getProfilepic() {
+        return profilepic;
+    }
+
+    public void setProfilepic(String profilepic) {
+        this.profilepic = profilepic;
+    }
 }

@@ -40,19 +40,11 @@ public class RestEmployeeAdd extends AppCompatActivity {
         button=findViewById(R.id.add_employee);
         toolbar=findViewById(R.id.toolbar_all);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-                finish();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            onBackPressed();
+            finish();
         });
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addEmployee();
-            }
-        });
+        button.setOnClickListener(v -> addEmployee());
     }
     private void addEmployee()
     {
@@ -68,7 +60,7 @@ public class RestEmployeeAdd extends AppCompatActivity {
         call.enqueue(new Callback<SignUpCall>() {
             @Override
             public void onResponse(Call<SignUpCall> call, Response<SignUpCall> response) {
-                button.setEnabled(false);
+                //button.setEnabled(false);
                 Toast.makeText(getBaseContext(),"Employee Added Successfully",Toast.LENGTH_LONG).show();
                 name.setEnabled(false);
                 post.setEnabled(false);
@@ -83,6 +75,6 @@ public class RestEmployeeAdd extends AppCompatActivity {
                 Log.e("TAG",""+t);
             }
         });
-        button.setEnabled(false);
+        //button.setEnabled(false);
     }
 }

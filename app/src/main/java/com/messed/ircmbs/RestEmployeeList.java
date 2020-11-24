@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,6 +33,7 @@ public class RestEmployeeList extends AppCompatActivity {
     RecyclerView recyclerView;
     Toolbar toolbar;
     View parent;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,48 +43,38 @@ public class RestEmployeeList extends AppCompatActivity {
         toolbar=findViewById(R.id.toolbar_all);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         parent=findViewById(android.R.id.content);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-                finish();
-            }
+        progressBar=findViewById(R.id.prgbar);
+        toolbar.setNavigationOnClickListener(v -> {
+            onBackPressed();
+            finish();
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(),RestEmployeeAdd.class));
-            }
-        });
-        getEmpData();
+        fab.setOnClickListener(v -> startActivity(new Intent(getBaseContext(),RestEmployeeAdd.class)));
+        //getEmpData();
     }
     private void getEmpData()
     {
-        final ProgressDialog progressDialog=new ProgressDialog(this);
-        progressDialog.setMessage("Please wait fetching employee list");
-        progressDialog.show();
+        progressBar.setVisibility(View.VISIBLE);
         UserPreference userPreference=new UserPreference(getBaseContext());
         NetworkService networkService= RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
-        call=networkService.getEmployee(userPreference.getResid());
-        call.enqueue(new Callback<List<EmpDataModel>>() {
+        Call<EmployeeRecordResponse> responseCall=networkService.allInOneEmployee("0",userPreference.getResid(),null,null
+                                                        ,null,null,null,null,null);
+        responseCall.enqueue(new Callback<EmployeeRecordResponse>() {
             @Override
-            public void onResponse(Call<List<EmpDataModel>> call, Response<List<EmpDataModel>> response) {
-                //Log.e("TAG",""+response.body().get(0).getEmpname());
+            public void onResponse(Call<EmployeeRecordResponse> call, Response<EmployeeRecordResponse> response) {
                 if(response.body()!=null){
-                    RestEmployeeAdapter adapter = new RestEmployeeAdapter(getBaseContext(), response.body());
+                    RestEmployeeAdapter adapter = new RestEmployeeAdapter(getBaseContext(), response.body().getEmployees());
                     recyclerView.setAdapter(adapter);
                 }else
                 {
                     Snackbar.make(parent, "No Employee Record Found", Snackbar.LENGTH_LONG).show();
                 }
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onFailure(Call<List<EmpDataModel>> call, Throwable t) {
-                Log.e("RestEmpLIST",""+t);
-                progressDialog.dismiss();
+            public void onFailure(Call<EmployeeRecordResponse> call, Throwable t) {
+
             }
         });
     }

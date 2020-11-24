@@ -17,7 +17,7 @@ import java.util.List;
  * */
 public class MenuDataBase extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "MyMenu";
     private static final String TABLE_NAME = "items";
 
@@ -28,7 +28,7 @@ public class MenuDataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query="create table "+ TABLE_NAME +"(Sno int(10),MenuItem varchar(100),Price varchar(50),Rating varchar(10),time varchar(10),curravail varchar(10))";
+        String query="create table "+ TABLE_NAME +"(Sno int(10),MenuItem varchar(100),Price varchar(50),Rating varchar(10),time varchar(10),curravail varchar(10),itemdesc varchar(200))";
         db.execSQL(query);
 
     }
@@ -50,6 +50,7 @@ public class MenuDataBase extends SQLiteOpenHelper {
             values.put("Rating",menuLists.get(i).getRating());
             values.put("time",menuLists.get(i).getItemtime());
             values.put("curravail",menuLists.get(i).getCurravail());
+            values.put("itemdesc",menuLists.get(i).getItemdesc());
             db.insert(TABLE_NAME,"0",values);
         }
         db.close();
@@ -92,6 +93,7 @@ public class MenuDataBase extends SQLiteOpenHelper {
                     nob.setRating(cursor.getString(3));
                     nob.setItemtime(cursor.getString(4));
                     nob.setCurravail(cursor.getString(5));
+                    nob.setItemdesc(cursor.getString(6));
                     data.add(nob);
                 }
             }while(cursor.moveToNext());

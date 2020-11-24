@@ -50,6 +50,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:passwordToggleEnabled="true"
         app:startIconDrawable="@drawable/visibility_off_black_24dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -69,7 +70,7 @@
         android:padding="10sp"
         android:text="Login"
         android:textSize="15sp"
-        app:cornerRadius="25sp"
+        app:cornerRadius="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView3" />

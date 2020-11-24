@@ -32,7 +32,7 @@ public class LoginRest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_rest);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         e1=findViewById(R.id.rest_login_email);
         e2=findViewById(R.id.rest_login_password);
         button=findViewById(R.id.restloginbutton);

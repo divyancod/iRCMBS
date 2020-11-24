@@ -24,6 +24,17 @@ public class MenuList {
     @SerializedName("rating")
     @Expose
     private String rating;
+    @SerializedName("itemdesc")
+    @Expose
+    private String itemdesc;
+
+    public String getItemdesc() {
+        return itemdesc;
+    }
+
+    public void setItemdesc(String itemdesc) {
+        this.itemdesc = itemdesc;
+    }
 
     public String getItemtime() {
         return itemtime;

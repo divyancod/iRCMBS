@@ -93,7 +93,7 @@ public class RestSignUpDetails extends AppCompatActivity {
         //FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
        // Log.e("TAG",""+currentFirebaseUser.getUid());
         NetworkService networkService= RetrofitInstanceClient.getRetrofit().create(NetworkService.class);
-        call=networkService.signupCall(rname,firebaseAuth.getUid(),rowner,raddress,n,rnumtables,rnumemp,rphone);
+        call=networkService.signupCall(rname,firebaseAuth.getUid(),rowner,raddress,n,rnumtables,rnumemp,rphone,firebaseAuth.getCurrentUser().getEmail());
         call.enqueue(new Callback<SignUpCall>() {
             @Override
             public void onResponse(Call<SignUpCall> call, Response<SignUpCall> response) {

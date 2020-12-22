@@ -11,10 +11,12 @@ import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.Model.RestLoggedData;
 import com.messed.ircmbs.Model.SaleModel;
 import com.messed.ircmbs.Model.SignUpCall;
+import com.messed.ircmbs.SalesRecordModel;
 import com.squareup.okhttp.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -27,6 +29,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 /*
  * Created By MrMessedUp(Divyanshu Verma)
  * */
@@ -42,7 +45,8 @@ public interface NetworkService {
             @Field("cloudkitchen") String cloud,
             @Field("tables") String tables,
             @Field("employees") String employees,
-            @Field("phone") String phone
+            @Field("phone") String phone,
+            @Field("email") String email
     );
 
     @POST("/rest_profile.php")
@@ -127,4 +131,7 @@ public interface NetworkService {
                                     @Field("empgovid") String govid,
                                     @Field("empaddress") String address,
                                     @Field("empphone") String empphone, @Field("empprofilepic")String profilepic);
+
+    @GET("/test.php")
+    Call<List<SalesRecordModel>> getSales(@QueryMap Map<String,String> map);
 }

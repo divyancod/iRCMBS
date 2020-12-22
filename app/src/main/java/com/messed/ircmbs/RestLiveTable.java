@@ -62,10 +62,11 @@ public class RestLiveTable extends AppCompatActivity {
     private void getTables()
     {
         reference = database.getReference(firebaseAuth.getUid()).child("Table");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean flag=true;
+                tables.clear();
                 for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
                 {
                     tables.add(dataSnapshot1.getKey());

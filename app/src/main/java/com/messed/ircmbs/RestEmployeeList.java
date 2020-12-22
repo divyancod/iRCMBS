@@ -2,8 +2,11 @@ package com.messed.ircmbs;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,6 +22,8 @@ import com.messed.ircmbs.Model.EmpDataModel;
 import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
+import com.messed.ircmbs.ViewModel.RestEmployeeListFactory;
+import com.messed.ircmbs.ViewModel.RestEmployeeListViewModel;
 
 import java.util.List;
 
@@ -34,6 +39,10 @@ public class RestEmployeeList extends AppCompatActivity {
     Toolbar toolbar;
     View parent;
     ProgressBar progressBar;
+    RestEmployeeListViewModel viewModel;
+    SwipeRefreshLayout swipeRefreshLayout;
+    RestEmployeeAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +53,30 @@ public class RestEmployeeList extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         parent=findViewById(android.R.id.content);
         progressBar=findViewById(R.id.prgbar);
+        swipeRefreshLayout=findViewById(R.id.pullToRefresh);
         toolbar.setNavigationOnClickListener(v -> {
             onBackPressed();
             finish();
         });
+
+        viewModel=new ViewModelProvider(this).get(RestEmployeeListViewModel.class);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fab.setOnClickListener(v -> startActivity(new Intent(getBaseContext(),RestEmployeeAdd.class)));
-        //getEmpData();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                callAgain();
+            }
+        });
+    }
+    private void callAgain()
+    {
+        viewModel.getNewEmployee(getApplicationContext()).observe(this, employees -> {
+            adapter=new RestEmployeeAdapter(this,employees);
+            recyclerView.setAdapter(adapter);
+        });
+        swipeRefreshLayout.setRefreshing(false);
     }
     private void getEmpData()
     {
@@ -79,9 +105,24 @@ public class RestEmployeeList extends AppCompatActivity {
         });
     }
 
+    public void getAll()
+    {
+        viewModel.getEmployeeData(getApplicationContext()).observe(this, employees -> {
+            adapter = new RestEmployeeAdapter(getBaseContext(), employees);
+            recyclerView.setAdapter(adapter);
+            progressBar.setVisibility(View.GONE);
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
-        getEmpData();
+        //getEmpData();
+        getAll();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("TAG","test");
     }
 }

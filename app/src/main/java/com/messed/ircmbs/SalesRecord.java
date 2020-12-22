@@ -2,6 +2,11 @@ package com.messed.ircmbs;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +22,7 @@ import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
 import com.messed.ircmbs.View.Adapters.SalesRecordAdapter;
+import com.messed.ircmbs.ViewModel.SalesRecordViewModel;
 
 import java.util.List;
 
@@ -46,8 +52,18 @@ public class SalesRecord extends AppCompatActivity {
         });
         recyclerView=findViewById(R.id.sales_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        fetchSales();
+        //fetchSales();
+        SalesRecordViewModel viewModel = ViewModelProviders.of(this).get(SalesRecordViewModel.class);
+        final SalesRecordAdapterNew adapterNew = new SalesRecordAdapterNew(this);
+        viewModel.getPagedListLiveData().observe(this, new Observer<PagedList<SalesRecordModel>>() {
+            @Override
+            public void onChanged(PagedList<SalesRecordModel> salesRecordModels) {
+                adapterNew.submitList(salesRecordModels);
+            }
+        });
+        recyclerView.setAdapter(adapterNew);
     }
+
     private void fetchSales()
     {
         final ProgressDialog progressDialog=new ProgressDialog(this);

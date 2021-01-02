@@ -1,5 +1,5 @@
 
-package com.messed.ircmbs;
+package com.messed.ircmbs.Model;
 
 import java.io.Serializable;
 import java.util.List;

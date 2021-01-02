@@ -5,8 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.messed.ircmbs.Employee;
-import com.messed.ircmbs.EmployeeRecordResponse;
+import com.messed.ircmbs.Model.Employee;
+import com.messed.ircmbs.Model.EmployeeRecordResponse;
 import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;

@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.messed.ircmbs.R;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

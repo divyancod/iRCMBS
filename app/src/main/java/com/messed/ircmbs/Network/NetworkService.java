@@ -1,34 +1,25 @@
 package com.messed.ircmbs.Network;
 
-import android.database.Observable;
-
-import androidx.annotation.NonNull;
-
-import com.messed.ircmbs.Employee;
-import com.messed.ircmbs.EmployeeRecordResponse;
+import com.messed.ircmbs.Model.Employee;
+import com.messed.ircmbs.Model.EmployeeRecordResponse;
 import com.messed.ircmbs.Model.EmpDataModel;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.Model.RestLoggedData;
 import com.messed.ircmbs.Model.SaleModel;
 import com.messed.ircmbs.Model.SignUpCall;
-import com.messed.ircmbs.SalesRecordModel;
-import com.squareup.okhttp.RequestBody;
+import com.messed.ircmbs.Model.SalesRecordModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 /*
  * Created By MrMessedUp(Divyanshu Verma)

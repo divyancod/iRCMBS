@@ -16,18 +16,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.messed.ircmbs.AccountSettings;
-import com.messed.ircmbs.MainActivity;
-import com.messed.ircmbs.MiscNoteActivity;
+import com.messed.ircmbs.ui.AccountSettings;
+import com.messed.ircmbs.ui.MiscNoteActivity;
 import com.messed.ircmbs.Model.MenuDataBase;
 import com.messed.ircmbs.Model.MenuList;
 import com.messed.ircmbs.Model.RestLoggedData;
@@ -37,12 +33,9 @@ import com.messed.ircmbs.Network.RetrofitInstanceClient;
 import com.messed.ircmbs.R;
 import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.RestAccountGST;
-import com.messed.ircmbs.RestMyAccount;
-import com.messed.ircmbs.SalesRecord;
 import com.messed.ircmbs.View.LoginActivities.LoginChoice;
 
 import java.util.List;
-import java.util.Observable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;

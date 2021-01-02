@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,6 +20,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.messed.ircmbs.R;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 

@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,13 +8,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.messed.ircmbs.Model.Employee;
 import com.messed.ircmbs.Model.SignUpCall;
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
+import com.messed.ircmbs.R;
 import com.messed.ircmbs.databinding.ActivitySingleEmployeeBinding;
 import com.yalantis.ucrop.UCrop;
 
@@ -38,7 +39,7 @@ public class SingleEmployeeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_single_employee);
+        binding= DataBindingUtil.setContentView(this, R.layout.activity_single_employee);
         employee=(Employee) getIntent().getSerializableExtra(EMPLOYEE);
         setData();
         binding.updateBtn.setOnClickListener(v -> uploadProfilePic());

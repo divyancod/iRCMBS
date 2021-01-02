@@ -6,11 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-import com.messed.ircmbs.SalesRecordModel;
+import com.messed.ircmbs.Model.SalesRecordModel;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

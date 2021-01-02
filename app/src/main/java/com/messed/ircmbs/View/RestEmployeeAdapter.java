@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.View;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
-import com.messed.ircmbs.Model.EmpDataModel;
+import com.messed.ircmbs.Model.Employee;
+import com.messed.ircmbs.R;
+import com.messed.ircmbs.ui.SingleEmployeeActivity;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.opencensus.trace.export.SampledSpanStore;
 
 public class RestEmployeeAdapter extends RecyclerView.Adapter<RestEmployeeAdapter.RestEmployeeViewHolder> {
 
@@ -45,8 +46,7 @@ public class RestEmployeeAdapter extends RecyclerView.Adapter<RestEmployeeAdapte
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO employee details
-                Intent intent=new Intent(context,SingleEmployeeActivity.class);
+                Intent intent=new Intent(context, SingleEmployeeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(SingleEmployeeActivity.EMPLOYEE,employee.get(position));
                 context.startActivity(intent);

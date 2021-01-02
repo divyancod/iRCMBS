@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        getSupportActionBar().hide();
         lottieAnimationView=findViewById(R.id.progressBar);
         lottieAnimationView.setSpeed(2.0F);
         lottieAnimationView.setProgress(0.5F);
@@ -44,13 +43,10 @@ public class MainActivity extends AppCompatActivity {
         {
             userCheckCal();
         }else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    lottieAnimationView.cancelAnimation();
-                    startActivity(new Intent(getBaseContext(),LoginChoice.class));
-                    finish();
-                }
+            new Handler().postDelayed(() -> {
+                lottieAnimationView.cancelAnimation();
+                startActivity(new Intent(getBaseContext(),LoginChoice.class));
+                finish();
             },3000);
         }
     }
@@ -66,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 UserPreference nob = new UserPreference(MainActivity.this);
                 if (response.body().getError().equals("1")) {
                     nob.setAccountStatus(MainActivity.this, response.body().getError());
-//                    Snackbar.make(findViewById(android.R.id.content), "Account not verified contact developer at divyanfun@gmail.com", Snackbar.LENGTH_INDEFINITE).show();
                 } else {
                     nob.setAccountStatus(MainActivity.this, response.body().getError());
                 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RestMyAccount">
+    tools:context=".ui.RestMyAccount">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,8 +26,8 @@
 
         <RelativeLayout
             android:id="@+id/profilepiclayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@+id/guideline17"
             app:layout_constraintStart_toStartOf="@+id/guideline18"
             app:layout_constraintTop_toBottomOf="@+id/myacc_apptitle">
@@ -46,9 +46,9 @@
                 android:id="@+id/profilepiceditbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="110dp"
                 android:background="@color/colorwhite"
-                android:layout_marginTop="95dp"
-                android:layout_marginLeft="220dp"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:elevation="8dp"
                 app:borderWidth="0dp"
@@ -155,10 +155,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:buttonTint="@color/colorPrimaryDark"
             android:fontFamily="@font/nunito_regular"
             android:text="Are you cloud kitchen?"
             android:textSize="15dp"
-            android:buttonTint="@color/colorPrimaryDark"
             app:layout_constraintEnd_toStartOf="@+id/guideline17"
             app:layout_constraintStart_toStartOf="@+id/guideline18"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />

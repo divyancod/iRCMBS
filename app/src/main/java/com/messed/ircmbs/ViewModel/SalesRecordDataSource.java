@@ -3,11 +3,12 @@ package com.messed.ircmbs.ViewModel;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
 
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
-import com.messed.ircmbs.SalesRecordModel;
+import com.messed.ircmbs.Model.SalesRecordModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ public class SalesRecordDataSource extends PageKeyedDataSource<Long, SalesRecord
     NetworkService networkService;
     Map<String,String> map = new HashMap<>();
     int page=0;
+
     public SalesRecordDataSource()
     {
         this.map.put("page","0");

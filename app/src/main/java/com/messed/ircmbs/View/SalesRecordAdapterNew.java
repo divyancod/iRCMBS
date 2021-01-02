@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.View;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,12 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
+import com.messed.ircmbs.Model.SalesRecordModel;
+import com.messed.ircmbs.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

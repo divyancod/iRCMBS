@@ -1,4 +1,4 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +16,7 @@ import com.messed.ircmbs.Model.SignUpCall;
 import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
+import com.messed.ircmbs.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;

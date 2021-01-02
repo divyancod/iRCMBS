@@ -1,14 +1,12 @@
-package com.messed.ircmbs;
+package com.messed.ircmbs.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +22,7 @@ import com.messed.ircmbs.Model.SignUpCall;
 import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.Network.NetworkService;
 import com.messed.ircmbs.Network.RetrofitInstanceClient;
+import com.messed.ircmbs.R;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;

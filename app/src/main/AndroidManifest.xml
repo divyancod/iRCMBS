@@ -15,25 +15,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SingleEmployeeActivity"></activity>
+        <activity android:name=".ui.SingleEmployeeActivity"></activity>
         <activity
-            android:name=".AccountSettings"
+            android:name=".ui.AccountSettings"
             android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity android:name=".RestAccountGST" />
         <activity
-            android:name=".MiscNoteActivity"
+            android:name=".ui.MiscNoteActivity"
             android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity
-            android:name=".RestEmployeeList"
+            android:name=".View.RestEmployeeList"
             android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity
-            android:name=".RestEmployeeAdd"
+            android:name=".ui.RestEmployeeAdd"
             android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity
-            android:name=".SalesRecord"
+            android:name=".View.SalesRecord"
             android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity
-            android:name=".RestLiveTable"
+            android:name=".ui.RestLiveTable"
             android:theme="@style/AppTheme.AfterNoActionBar" />
         <activity android:name=".View.LoginActivities.RestSignUpDetails" />
         <activity

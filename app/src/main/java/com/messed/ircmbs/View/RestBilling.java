@@ -122,16 +122,13 @@ public class RestBilling extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("TAG","Generating Bill");
-                sendOrderData();
-                if(!currtable.isEmpty()) {
-                    database.getReference(firebaseAuth.getUid()).child("Table").child(currtable).removeValue();
-                    Snackbar.make(v,"Kindly check payments",Snackbar.LENGTH_LONG).show();
-                    button.setEnabled(false);
-                }
+        button.setOnClickListener(v -> {
+            Log.e("TAG","Generating Bill");
+            sendOrderData();
+            if(!currtable.isEmpty()) {
+                database.getReference(firebaseAuth.getUid()).child("Table").child(currtable).removeValue();
+                Snackbar.make(v,"Kindly check payments",Snackbar.LENGTH_LONG).show();
+                button.setEnabled(false);
             }
         });
     }

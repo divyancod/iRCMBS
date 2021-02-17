@@ -18,12 +18,14 @@ public class RestEmployeeListViewModel extends ViewModel {
     {
         restEmployeeListFactory=new RestEmployeeListFactory();
     }
-    public MutableLiveData<List<Employee>> getEmployeeData(Context context)
+    public void getEmployeeData(Context context)
     {
         if(liveData==null)
         {
             liveData=restEmployeeListFactory.getEmployees(context);
         }
-        return liveData;
+    }
+    public void refresh(Context context)
+    {
     }
 }

@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     nob.setAccountStatus(MainActivity.this, response.body().getError());
                 } else {
                     nob.setAccountStatus(MainActivity.this, response.body().getError());
+                    nob.setProfilepic(response.body().getRestLoggedData().getProfilepic());
                 }
                 lottieAnimationView.cancelAnimation();
                 startActivity(new Intent(MainActivity.this,RestaurantHomeScreen.class));
@@ -73,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SignUpCall> call, Throwable t) {
                 Log.e("tag", "" + t);
+                Toast.makeText(getBaseContext(),"Something may not work",Toast.LENGTH_LONG).show();
+                lottieAnimationView.cancelAnimation();
+                startActivity(new Intent(MainActivity.this,RestaurantHomeScreen.class));
+                finish();
             }
         });
     }

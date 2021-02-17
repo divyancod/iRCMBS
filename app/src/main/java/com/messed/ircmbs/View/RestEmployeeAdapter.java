@@ -30,6 +30,7 @@ public class RestEmployeeAdapter extends RecyclerView.Adapter<RestEmployeeAdapte
         this.employee = employee;
     }
 
+
     @NonNull
     @Override
     public RestEmployeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

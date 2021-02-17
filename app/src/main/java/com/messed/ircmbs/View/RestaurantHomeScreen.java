@@ -116,13 +116,11 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawers();
-
         switch (item.getItemId()) {
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.restframelayout, new FragHomeScreen()).commit();
                 break;
             case R.id.nav_myacc:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.restframelayout, new RestMyAccount()).commit();
                 startActivity(new Intent(RestaurantHomeScreen.this, AccountSettings.class));
                 break;
             case R.id.nav_logout:
@@ -140,7 +138,6 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
                 i.setData(Uri.parse(url));
                 startActivity(i);
                 break;
-
         }
         return true;
     }
@@ -261,6 +258,7 @@ public class RestaurantHomeScreen extends AppCompatActivity implements Navigatio
     protected void onResume() {
         super.onResume();
         checkConnection();
+        navigationView.setCheckedItem(R.id.nav_home);
         if (nob != null) {
             navdrawer_title.setText(nob.getRestname());
             Glide.with(getApplicationContext()).load(nob.getProfilePic()).placeholder(R.drawable.templogo).error(R.drawable.templogo).into(profilepic);

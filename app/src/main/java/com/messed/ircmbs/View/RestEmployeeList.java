@@ -2,6 +2,7 @@ package com.messed.ircmbs.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.messed.ircmbs.Model.EmpDataModel;
+import com.messed.ircmbs.Model.Employee;
 import com.messed.ircmbs.Model.EmployeeRecordResponse;
 import com.messed.ircmbs.Model.UserPreference;
 import com.messed.ircmbs.Network.NetworkService;
@@ -42,6 +44,7 @@ public class RestEmployeeList extends AppCompatActivity {
     RestEmployeeListViewModel viewModel;
     SwipeRefreshLayout swipeRefreshLayout;
     RestEmployeeAdapter adapter;
+    boolean refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class RestEmployeeList extends AppCompatActivity {
         parent = findViewById(android.R.id.content);
         progressBar = findViewById(R.id.prgbar);
         swipeRefreshLayout = findViewById(R.id.pullToRefresh);
+        refresh = false;
         toolbar.setNavigationOnClickListener(v -> {
             onBackPressed();
             finish();
@@ -63,13 +67,23 @@ public class RestEmployeeList extends AppCompatActivity {
         fab.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), RestEmployeeAdd.class)));
 
         viewModel = new ViewModelProvider(this).get(RestEmployeeListViewModel.class);
-        viewModel.getEmployeeData(getApplicationContext()).observe(this, employees -> {
-            adapter = new RestEmployeeAdapter(getBaseContext(), employees);
-            recyclerView.setAdapter(adapter);
-            progressBar.setVisibility(View.GONE);
+        viewModel.getEmployeeData(getApplicationContext());
+//        viewModel.getEmployeeData(getApplicationContext()).observe(this, employees -> {
+//            adapter = new RestEmployeeAdapter(getBaseContext(), employees);
+//            recyclerView.setAdapter(adapter);
+//            progressBar.setVisibility(View.GONE);
+//        });
+        viewModel.liveData.observe(this, new Observer<List<Employee>>() {
+            @Override
+            public void onChanged(List<Employee> employees) {
+                adapter = new RestEmployeeAdapter(getBaseContext(), employees);
+                recyclerView.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
+            }
         });
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(false);
+            viewModel.refresh(RestEmployeeList.this);
         });
     }
 
